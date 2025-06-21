@@ -8,8 +8,8 @@ typedef struct Array {
 } Array;
 
 /* ---| CREATE |--- */
-Array array_new(void);
-Array array_build(void);
+int array_new(Array *array);
+int array_build(Array *array, unsigned int size);
 
 /* ---| READ |--- */
 Array array_get(void);
