@@ -17,7 +17,7 @@ int array_get(void **dest, Array *src, unsigned int idx);
 /* ---| UPDATE |--- */
 int array_add_suffix(Array *src, void *item);
 int array_add_prefix(Array *src, void *item);
-Array array_insert(void);
+int array_insert(Array *src, void *item, unsigned int idx);
 Array array_replace(void);
 
 /* ---| DELETE |--- */

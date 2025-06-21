@@ -130,7 +130,48 @@ int array_add_prefix(Array *src, void *item)
 	return NO_ERR;
 }
 
-Array array_insert(void);
+int array_insert(Array *src, void *item, unsigned int idx)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(idx > src->cnt)
+		return OUT_OF_BOUNDS_ERR;
+
+	if(src->cnt >= src->size)
+	{
+		void **new_items = malloc(src->size * 2 * sizeof(void*));
+		if(new_items == NULL)
+			return MEM_ERR;
+
+		src->size *= 2;
+		for(unsigned int i = 0; i < idx; i++) {
+			new_items[i] = src->items[i];
+		}
+		for(unsigned int i = src->cnt; i >= idx; i--) {
+			new_items[i+1] = src->items[i];
+		}
+		new_items[idx] = item;
+
+		free(src->items);
+		src->items = new_items;
+		++src->cnt;
+
+		return NO_ERR;
+	}
+
+	for(unsigned int i = src->cnt; i >= idx; i--) {
+		src->items[i+1] = src->items[i];
+	}
+	src->items[idx] = item;
+	++src->cnt;
+
+	return NO_ERR;
+}
+
 Array array_replace(void);
 
 /* ---| DELETE |--- */
