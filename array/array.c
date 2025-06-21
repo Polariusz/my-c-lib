@@ -96,7 +96,40 @@ int array_add_suffix(Array *src, void *item)
 	return NO_ERR;
 }
 
-Array array_add_prefix(void);
+int array_add_prefix(Array *src, void *item)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(src->cnt >= src->size)
+	{
+		void **new_items = malloc(src->size * 2 * sizeof(void*));
+		src->size *= 2;
+		for(unsigned int i = 0; i < src->cnt; i++) {
+			new_items[1 + i] = src->items[i];
+		}
+		free(src->items);
+
+		new_items[0] = item;
+		src->items = new_items;
+		++src->cnt;
+
+		return NO_ERR;
+	}
+
+	for(unsigned int i = src->cnt; i > 0; i--) {
+		src->items[i] = src->items[i-1];
+	}
+
+	src->items[0] = item;
+	++src->cnt;
+
+	return NO_ERR;
+}
+
 Array array_insert(void);
 Array array_replace(void);
 
