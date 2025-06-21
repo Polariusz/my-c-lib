@@ -12,7 +12,7 @@ int array_new(Array *array);
 int array_build(Array *array, unsigned int size);
 
 /* ---| READ |--- */
-Array array_get(void);
+int array_get(void **dest, Array *src, int idx);
 
 /* ---| UPDATE |--- */
 Array array_add_suffix(void);

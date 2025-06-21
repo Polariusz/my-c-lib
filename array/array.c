@@ -11,6 +11,7 @@ enum ERR_LVL {
 	NULL_ERR,
 	MEM_ERR,
 	ARG_ERR,
+	OUT_OF_BOUNDS_ERR,
 };
 
 /* ---| CREATE |--- */
@@ -53,7 +54,21 @@ int array_build(Array *array, unsigned int size)
 }
 
 /* ---| READ |--- */
-Array array_get(void);
+int array_get(void **dest, Array *src, int idx)
+{
+	if(dest == NULL)
+		return NULL_ERR;
+
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(idx > src->cnt)
+		return OUT_OF_BOUNDS_ERR;
+
+	*dest = src->items[idx];
+
+	return NO_ERR;
+}
 
 /* ---| UPDATE |--- */
 Array array_add_suffix(void);
