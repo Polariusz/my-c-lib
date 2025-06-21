@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 typedef struct Array {
-	void *items;
+	void **items;
 	unsigned int cnt;
 	unsigned int size;
 } Array;
@@ -71,7 +71,31 @@ int array_get(void **dest, Array *src, int idx)
 }
 
 /* ---| UPDATE |--- */
-Array array_add_suffix(void);
+int array_add_suffix(Array *src, void *item)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(src->cnt >= src->size)
+	{
+		void **new_items = malloc(src->size * 2 * sizeof(void*));
+		src->size *= 2;
+		for(unsigned int i = 0; i < src->cnt; i++) {
+			new_items[i] = src->items[i];
+		}
+		free(src->items);
+		src->items = new_items;
+	}
+
+	src->items[src->cnt] = item;
+	++src->cnt;
+
+	return NO_ERR;
+}
+
 Array array_add_prefix(void);
 Array array_insert(void);
 Array array_replace(void);
