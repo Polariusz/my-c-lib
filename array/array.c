@@ -54,7 +54,7 @@ int array_build(Array *array, unsigned int size)
 }
 
 /* ---| READ |--- */
-int array_get(void **dest, Array *src, int idx)
+int array_get(void **dest, Array *src, unsigned int idx)
 {
 	if(dest == NULL)
 		return NULL_ERR;
