@@ -178,7 +178,21 @@ int array_insert(Array *src, void *item, unsigned int idx)
 	return NO_ERR;
 }
 
-Array array_replace(void);
+int array_replace(Array *src, void *item, unsigned int idx)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(idx > src->cnt)
+		return OUT_OF_BOUNDS_ERR;
+
+	src->items[idx] = item;
+
+	return NO_ERR;
+}
 
 /* ---| DELETE |--- */
 
