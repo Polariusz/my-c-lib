@@ -21,7 +21,6 @@ int array_insert(Array *src, void *item, unsigned int idx);
 int array_replace(Array *src, void *item, unsigned int index);
 
 /* ---| DELETE |--- */
-
 int array_delete(Array *src, unsigned int idx);
 
 #endif

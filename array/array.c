@@ -62,7 +62,7 @@ int array_get(void **dest, Array *src, unsigned int idx)
 	if(src == NULL)
 		return NULL_ERR;
 
-	if(idx > src->cnt)
+	if(src->cnt <= idx)
 		return OUT_OF_BOUNDS_ERR;
 
 	*dest = src->items[idx];
@@ -144,7 +144,7 @@ int array_insert(Array *src, void *item, unsigned int idx)
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(idx > src->cnt)
+	if(src->cnt <= idx)
 		return OUT_OF_BOUNDS_ERR;
 
 	if(src->cnt >= src->size)
@@ -186,7 +186,7 @@ int array_replace(Array *src, void *item, unsigned int idx)
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(idx > src->cnt)
+	if(src->cnt <= idx)
 		return OUT_OF_BOUNDS_ERR;
 
 	src->items[idx] = item;
@@ -195,7 +195,6 @@ int array_replace(Array *src, void *item, unsigned int idx)
 }
 
 /* ---| DELETE |--- */
-
 int array_delete(Array *src, unsigned int idx)
 {
 	if(src == NULL)
