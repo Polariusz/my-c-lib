@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct Array {
 	void **items;
@@ -33,7 +34,24 @@ int array_new(Array *array)
 	return NO_ERR;
 }
 
-/* ---| CREATE |--- */
+int array_new_ptr(Array **array)
+{
+	if(array == NULL)
+		return NULL_ERR;
+
+	*array = malloc(sizeof(Array));
+
+	(*array)->items = malloc(SIZE * sizeof(void*));
+	if((*array)->items == NULL) {
+		return MEM_ERR;
+	}
+
+	(*array)->cnt = 0;
+	(*array)->size = SIZE;
+
+	return NO_ERR;
+}
+
 int array_build(Array *array, unsigned int size)
 {
 	if(array == NULL)
@@ -49,6 +67,27 @@ int array_build(Array *array, unsigned int size)
 
 	array->cnt = 0;
 	array->size = size;
+
+	return NO_ERR;
+}
+
+int array_build_ptr(Array **array, unsigned int size)
+{
+	if(array == NULL)
+		return NULL_ERR;
+
+	if(size < 1)
+		return ARG_ERR;
+
+	*array = malloc(sizeof(Array));
+
+	(*array)->items = malloc(size * sizeof(void*));
+	if((*array)->items == NULL) {
+		return MEM_ERR;
+	}
+
+	(*array)->cnt = 0;
+	(*array)->size = size;
 
 	return NO_ERR;
 }
@@ -144,36 +183,28 @@ int array_insert(Array *src, void *item, unsigned int idx)
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(src->cnt <= idx)
+	if(src->cnt < idx)
 		return OUT_OF_BOUNDS_ERR;
 
-	if(src->cnt >= src->size)
-	{
-		void **new_items = malloc(src->size * 2 * sizeof(void*));
+	if(src->cnt >= src->size) {
+		src->size *= 2;
+		void **new_items = malloc(src->size * sizeof(void*));
 		if(new_items == NULL)
 			return MEM_ERR;
 
-		src->size *= 2;
-		for(unsigned int i = 0; i < idx; i++) {
+		for(unsigned int i = 0; i < src->cnt; i++) {
 			new_items[i] = src->items[i];
 		}
-		for(unsigned int i = src->cnt; i >= idx; i--) {
-			new_items[i+1] = src->items[i];
-		}
-		new_items[idx] = item;
-
 		free(src->items);
 		src->items = new_items;
-		++src->cnt;
-
-		return NO_ERR;
 	}
 
-	for(unsigned int i = src->cnt; i >= idx; i--) {
-		src->items[i+1] = src->items[i];
-	}
-	src->items[idx] = item;
 	++src->cnt;
+	for(unsigned int i = src->cnt; i > idx; i--) {
+		src->items[i] = src->items[i-1];
+	}
+
+	src->items[idx] = item;
 
 	return NO_ERR;
 }
@@ -208,6 +239,60 @@ int array_delete(Array *src, unsigned int idx)
 	}
 	src->items[src->cnt] = NULL;
 	--src->cnt;
+
+	return NO_ERR;
+}
+
+/* ---| CUSTOM |--- */
+int array_dump(Array *src, void(*dump_item)(void* item))
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	printf("CNT  : %d\n", src->cnt);
+	printf("SIZE : %d\n", src->size);
+	for(unsigned int i = 0; i < src->cnt; i++) {
+		printf("%p: ", src->items[i]);
+		dump_item(src->items[i]);
+		printf("\n");
+	}
+
+	return NO_ERR;
+}
+
+int array_destroy(Array *src)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(src->items == NULL)
+		return NULL_ERR;
+
+	free(src->items);
+	src->items = NULL;
+	src->cnt = 0;
+	src->size = 0;
+
+	return NO_ERR;
+}
+
+int array_destroy_ptr(Array **src)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(*src == NULL)
+		return NULL_ERR;
+
+	if((*src)->items == NULL)
+		return NULL_ERR;
+
+	free((*src)->items);
+	(*src)->items = NULL;
+	(*src)->cnt = 0;
+	(*src)->size = 0;
+	free(*src);
+	*src = NULL;
 
 	return NO_ERR;
 }
