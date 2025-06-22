@@ -196,4 +196,19 @@ int array_replace(Array *src, void *item, unsigned int idx)
 
 /* ---| DELETE |--- */
 
-Array array_delete(void);
+int array_delete(Array *src, unsigned int idx)
+{
+	if(src == NULL)
+		return NULL_ERR;
+
+	if(src->cnt <= idx)
+		return OUT_OF_BOUNDS_ERR;
+
+	for(unsigned int i = idx; i < src->cnt; i++) {
+		src->items[i] = src->items[i+1];
+	}
+	src->items[src->cnt] = NULL;
+	--src->cnt;
+
+	return NO_ERR;
+}

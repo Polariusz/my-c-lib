@@ -22,6 +22,6 @@ int array_replace(Array *src, void *item, unsigned int index);
 
 /* ---| DELETE |--- */
 
-Array array_delete(void);
+int array_delete(Array *src, unsigned int idx);
 
 #endif
