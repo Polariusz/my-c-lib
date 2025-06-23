@@ -1,19 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "../err_lvl/err_lvl.h"
 
 typedef struct Array {
 	void **items;
 	unsigned int cnt;
 	unsigned int size;
 } Array;
-
-enum ERR_LVL {
-	NO_ERR,
-	NULL_ERR,
-	MEM_ERR,
-	ARG_ERR,
-	OUT_OF_BOUNDS_ERR,
-};
 
 /* ---| CREATE |--- */
 #define SIZE 16
