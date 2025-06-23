@@ -1,14 +1,14 @@
-#idndef LINKED_LIST_H_
+#ifndef LINKED_LIST_H_
 #define LINKED_LIST_H_
 
-typdef struct LinkedListNode {
+typedef struct LinkedListNode {
 	void *item;
 	struct LinkedListNode *next;
 } LinkedListNode;
 
 typedef struct LinkedList {
 	LinkedListNode *root;
-	int cnt;
+	unsigned int cnt;
 	void(*dump_item)(void* item);
 } LinkedList;
 
