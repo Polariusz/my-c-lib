@@ -189,3 +189,60 @@ Test(array_update, complex)
 	array_destroy_ptr(&array);
 	free(arr);
 }
+
+Test(array_get, oob)
+{
+	int a = 0;
+	int b = 1;
+	int c = 2;
+	Array *array;
+	array_new_ptr(&array);
+	void *yoink = NULL;
+	int res = 0;
+
+	res = array_get(&yoink, array, 0); cr_expect(res != 0);
+	res = array_get(&yoink, array, 1); cr_expect(res != 0);
+
+	array_add_suffix(array, &a);
+	res = array_get(&yoink, array, 0); cr_expect(res == 0);
+	res = array_get(&yoink, array, 1); cr_expect(res != 0);
+	res = array_get(&yoink, array, 2); cr_expect(res != 0);
+
+	array_add_suffix(array, &b);
+	res = array_get(&yoink, array, 0); cr_expect(res == 0);
+	res = array_get(&yoink, array, 1); cr_expect(res == 0);
+	res = array_get(&yoink, array, 2); cr_expect(res != 0);
+	res = array_get(&yoink, array, 3); cr_expect(res != 0);
+
+	array_add_suffix(array, &c);
+	res = array_get(&yoink, array, 0); cr_expect(res == 0);
+	res = array_get(&yoink, array, 1); cr_expect(res == 0);
+	res = array_get(&yoink, array, 2); cr_expect(res == 0);
+	res = array_get(&yoink, array, 3); cr_expect(res != 0);
+	res = array_get(&yoink, array, 4); cr_expect(res != 0);
+
+	array_destroy_ptr(&array);
+}
+
+Test(array_delete, complex) {
+	int a = 0;
+	int b = 1;
+	int c = 2;
+	Array *array;
+	array_new_ptr(&array);
+	void *yoink = NULL;
+	int res = 0;
+
+	array_add_suffix(array, &a);
+	array_add_suffix(array, &b);
+	array_add_suffix(array, &c);
+
+	res = array_delete(NULL, array, 3); cr_expect(res != 0);
+	res = array_delete(NULL, array, 2); cr_expect(res == 0);
+	res = array_delete(NULL, array, 0); cr_expect(res == 0);
+	res = array_delete(&yoink, array, 0); cr_expect(res == 0);
+	cr_assert_eq(yoink, &b);
+	res = array_delete(&yoink, array, 0); cr_expect(res != 0);
+
+	array_destroy_ptr(&array);
+}
