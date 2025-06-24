@@ -31,6 +31,6 @@ int ll_delete(LinkedList *ll, void **dest, unsigned int idx);
 /* ---| CUSTOM |--- */
 int ll_dump(LinkedList *ll);
 int ll_destroy(LinkedList *ll);
-int ll_destroy_ptr(LinkedList *ll);
+int ll_destroy_ptr(LinkedList **ll);
 
 #endif
