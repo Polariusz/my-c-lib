@@ -92,7 +92,39 @@ int ll_push(LinkedList *ll, void *item)
 	return NO_ERR;
 }
 
-int ll_insert(LinkedList *ll, void *item, unsigned int idx);
+int ll_insert(LinkedList *ll, void *item, unsigned int idx)
+{
+	if(ll == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(idx > ll->cnt)
+		return OUT_OF_BOUNDS_ERR;
+
+	if(idx == 0)
+		return ll_push(ll, item);
+
+	LinkedListNode *new_node = malloc(sizeof(LinkedListNode));
+	if(new_node == NULL)
+		return MEM_ERR;
+
+	new_node->item = item;
+	new_node->next = NULL;
+
+	LinkedListNode *node = ll->root;
+	while((idx - 1) > 0) {
+		node = node->next;
+		--idx;
+	}
+
+	new_node->next = node->next;
+	node->next = new_node;
+
+	return NO_ERR;
+}
+
 int ll_replace(LinkedList *ll, void *item, unsigned int idx);
 
 /* ---| DELETE |--- */
@@ -141,4 +173,4 @@ int ll_dump(LinkedList *ll)
 }
 
 int ll_destroy(LinkedList *ll);
-int ll_destroy_ptr(LinkedList *ll);
+int ll_destroy_ptr(LinkedList **ll);
