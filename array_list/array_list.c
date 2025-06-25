@@ -11,284 +11,284 @@ typedef struct ArrayList {
 /* ---| CREATE |--- */
 #define SIZE 16
 
-int al_new(ArrayList *array)
+int al_new(ArrayList *al)
 {
-	if(array == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	array->items = malloc(SIZE * sizeof(void*));
-	if(array->items == NULL) {
+	al->items = malloc(SIZE * sizeof(void*));
+	if(al->items == NULL) {
 		return MEM_ERR;
 	}
 
-	array->cnt = 0;
-	array->size = SIZE;
+	al->cnt = 0;
+	al->size = SIZE;
 
 	return NO_ERR;
 }
 
-int al_new_ptr(ArrayList **array)
+int al_new_ptr(ArrayList **al)
 {
-	if(array == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	*array = malloc(sizeof(ArrayList));
+	*al = malloc(sizeof(ArrayList));
 
-	(*array)->items = malloc(SIZE * sizeof(void*));
-	if((*array)->items == NULL) {
+	(*al)->items = malloc(SIZE * sizeof(void*));
+	if((*al)->items == NULL) {
 		return MEM_ERR;
 	}
 
-	(*array)->cnt = 0;
-	(*array)->size = SIZE;
+	(*al)->cnt = 0;
+	(*al)->size = SIZE;
 
 	return NO_ERR;
 }
 
-int al_build(ArrayList *array, unsigned int size)
+int al_build(ArrayList *al, unsigned int size)
 {
-	if(array == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
 	if(size < 1)
 		return ARG_ERR;
 
-	array->items = malloc(size * sizeof(void*));
-	if(array->items == NULL) {
+	al->items = malloc(size * sizeof(void*));
+	if(al->items == NULL) {
 		return MEM_ERR;
 	}
 
-	array->cnt = 0;
-	array->size = size;
+	al->cnt = 0;
+	al->size = size;
 
 	return NO_ERR;
 }
 
-int al_build_ptr(ArrayList **array, unsigned int size)
+int al_build_ptr(ArrayList **al, unsigned int size)
 {
-	if(array == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
 	if(size < 1)
 		return ARG_ERR;
 
-	*array = malloc(sizeof(ArrayList));
+	*al = malloc(sizeof(ArrayList));
 
-	(*array)->items = malloc(size * sizeof(void*));
-	if((*array)->items == NULL) {
+	(*al)->items = malloc(size * sizeof(void*));
+	if((*al)->items == NULL) {
 		return MEM_ERR;
 	}
 
-	(*array)->cnt = 0;
-	(*array)->size = size;
+	(*al)->cnt = 0;
+	(*al)->size = size;
 
 	return NO_ERR;
 }
 
 /* ---| READ |--- */
-int al_get(void **dest, ArrayList *src, unsigned int idx)
+int al_get(ArrayList *al, void **dest, unsigned int idx)
 {
 	if(dest == NULL)
 		return NULL_ERR;
 
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	if(src->cnt <= idx)
+	if(al->cnt <= idx)
 		return OUT_OF_BOUNDS_ERR;
 
-	*dest = src->items[idx];
+	*dest = al->items[idx];
 
 	return NO_ERR;
 }
 
 /* ---| UPDATE |--- */
-int al_add_suffix(ArrayList *src, void *item)
+int al_add_suffix(ArrayList *al, void *item)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(src->cnt >= src->size)
+	if(al->cnt >= al->size)
 	{
-		void **new_items = malloc(src->size * 2 * sizeof(void*));
+		void **new_items = malloc(al->size * 2 * sizeof(void*));
 		if(new_items == NULL)
 			return MEM_ERR;
 
-		src->size *= 2;
-		for(unsigned int i = 0; i < src->cnt; i++) {
-			new_items[i] = src->items[i];
+		al->size *= 2;
+		for(unsigned int i = 0; i < al->cnt; i++) {
+			new_items[i] = al->items[i];
 		}
-		free(src->items);
-		src->items = new_items;
+		free(al->items);
+		al->items = new_items;
 	}
 
-	src->items[src->cnt] = item;
-	++src->cnt;
+	al->items[al->cnt] = item;
+	++al->cnt;
 
 	return NO_ERR;
 }
 
-int al_add_prefix(ArrayList *src, void *item)
+int al_add_prefix(ArrayList *al, void *item)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(src->cnt >= src->size)
+	if(al->cnt >= al->size)
 	{
-		void **new_items = malloc(src->size * 2 * sizeof(void*));
+		void **new_items = malloc(al->size * 2 * sizeof(void*));
 		if(new_items == NULL)
 			return MEM_ERR;
 
-		src->size *= 2;
-		for(unsigned int i = 0; i < src->cnt; i++) {
-			new_items[1 + i] = src->items[i];
+		al->size *= 2;
+		for(unsigned int i = 0; i < al->cnt; i++) {
+			new_items[1 + i] = al->items[i];
 		}
-		free(src->items);
+		free(al->items);
 
 		new_items[0] = item;
-		src->items = new_items;
-		++src->cnt;
+		al->items = new_items;
+		++al->cnt;
 
 		return NO_ERR;
 	}
 
-	for(unsigned int i = src->cnt; i > 0; i--) {
-		src->items[i] = src->items[i-1];
+	for(unsigned int i = al->cnt; i > 0; i--) {
+		al->items[i] = al->items[i-1];
 	}
 
-	src->items[0] = item;
-	++src->cnt;
+	al->items[0] = item;
+	++al->cnt;
 
 	return NO_ERR;
 }
 
-int al_insert(ArrayList *src, void *item, unsigned int idx)
+int al_insert(ArrayList *al, void *item, unsigned int idx)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(src->cnt < idx)
+	if(al->cnt < idx)
 		return OUT_OF_BOUNDS_ERR;
 
-	if(src->cnt >= src->size) {
-		src->size *= 2;
-		void **new_items = malloc(src->size * sizeof(void*));
+	if(al->cnt >= al->size) {
+		al->size *= 2;
+		void **new_items = malloc(al->size * sizeof(void*));
 		if(new_items == NULL)
 			return MEM_ERR;
 
-		for(unsigned int i = 0; i < src->cnt; i++) {
-			new_items[i] = src->items[i];
+		for(unsigned int i = 0; i < al->cnt; i++) {
+			new_items[i] = al->items[i];
 		}
-		free(src->items);
-		src->items = new_items;
+		free(al->items);
+		al->items = new_items;
 	}
 
-	++src->cnt;
-	for(unsigned int i = src->cnt; i > idx; i--) {
-		src->items[i] = src->items[i-1];
+	++al->cnt;
+	for(unsigned int i = al->cnt; i > idx; i--) {
+		al->items[i] = al->items[i-1];
 	}
 
-	src->items[idx] = item;
+	al->items[idx] = item;
 
 	return NO_ERR;
 }
 
-int al_replace(ArrayList *src, void *item, unsigned int idx)
+int al_replace(ArrayList *al, void *item, unsigned int idx)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
 	if(item == NULL)
 		return NULL_ERR;
 
-	if(src->cnt <= idx)
+	if(al->cnt <= idx)
 		return OUT_OF_BOUNDS_ERR;
 
-	src->items[idx] = item;
+	al->items[idx] = item;
 
 	return NO_ERR;
 }
 
 /* ---| DELETE |--- */
-int al_delete(void **dest, ArrayList *src, unsigned int idx)
+int al_delete(ArrayList *al, void **dest, unsigned int idx)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	if(src->cnt <= idx)
+	if(al->cnt <= idx)
 		return OUT_OF_BOUNDS_ERR;
 
 	if(dest != NULL)
-		*dest = src->items[idx];
+		*dest = al->items[idx];
 
-	for(unsigned int i = idx; i < src->cnt; i++) {
-		src->items[i] = src->items[i+1];
+	for(unsigned int i = idx; i < al->cnt; i++) {
+		al->items[i] = al->items[i+1];
 	}
-	src->items[src->cnt] = NULL;
-	--src->cnt;
+	al->items[al->cnt] = NULL;
+	--al->cnt;
 
 	return NO_ERR;
 }
 
 /* ---| CUSTOM |--- */
-int al_dump(ArrayList *src, void(*dump_item)(void* item))
+int al_dump(ArrayList *al, void(*dump_item)(void* item))
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	printf("CNT  : %d\n", src->cnt);
-	printf("SIZE : %d\n", src->size);
-	for(unsigned int i = 0; i < src->cnt; i++) {
-		printf("%p: ", src->items[i]);
-		dump_item(src->items[i]);
+	printf("CNT  : %d\n", al->cnt);
+	printf("SIZE : %d\n", al->size);
+	for(unsigned int i = 0; i < al->cnt; i++) {
+		printf("%p: ", al->items[i]);
+		dump_item(al->items[i]);
 		printf("\n");
 	}
 
 	return NO_ERR;
 }
 
-int al_destroy(ArrayList *src)
+int al_destroy(ArrayList *al)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	if(src->items == NULL)
+	if(al->items == NULL)
 		return NULL_ERR;
 
-	free(src->items);
-	src->items = NULL;
-	src->cnt = 0;
-	src->size = 0;
+	free(al->items);
+	al->items = NULL;
+	al->cnt = 0;
+	al->size = 0;
 
 	return NO_ERR;
 }
 
-int al_destroy_ptr(ArrayList **src)
+int al_destroy_ptr(ArrayList **al)
 {
-	if(src == NULL)
+	if(al == NULL)
 		return NULL_ERR;
 
-	if(*src == NULL)
+	if(*al == NULL)
 		return NULL_ERR;
 
-	if((*src)->items == NULL)
+	if((*al)->items == NULL)
 		return NULL_ERR;
 
-	free((*src)->items);
-	(*src)->items = NULL;
-	(*src)->cnt = 0;
-	(*src)->size = 0;
-	free(*src);
-	*src = NULL;
+	free((*al)->items);
+	(*al)->items = NULL;
+	(*al)->cnt = 0;
+	(*al)->size = 0;
+	free(*al);
+	*al = NULL;
 
 	return NO_ERR;
 }
