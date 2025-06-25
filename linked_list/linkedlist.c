@@ -219,5 +219,35 @@ int ll_dump(LinkedList *ll)
 	return NO_ERR;
 }
 
-int ll_destroy(LinkedList *ll);
-int ll_destroy_ptr(LinkedList **ll);
+void purge_nodes(LinkedListNode *node)
+{
+	if(node->next != NULL)
+		purge_nodes(node->next);
+
+	node->item = NULL;
+	node->next = NULL;
+	free(node);
+}
+
+int ll_destroy(LinkedList *ll)
+{
+	purge_nodes(ll->root);
+	ll->root = NULL;
+	ll->cnt = 0;
+	ll->dump_item = NULL;
+
+	return NO_ERR;
+}
+
+int ll_destroy_ptr(LinkedList **ll)
+{
+	if(ll == NULL)
+		return NULL_ERR;
+
+	ll_destroy(*ll);
+
+	free(*ll);
+	*ll = NULL;
+
+	return NO_ERR;
+}
