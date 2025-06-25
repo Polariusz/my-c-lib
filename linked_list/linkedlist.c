@@ -171,7 +171,33 @@ int ll_pop(LinkedList *ll, void **dest)
 	return NO_ERR;
 }
 
-int ll_delete(LinkedList *ll, void **dest, unsigned int idx);
+int ll_delete(LinkedList *ll, void **dest, unsigned int idx)
+{
+	if(ll == NULL)
+		return NULL_ERR;
+
+	if(idx > ll->cnt)
+		return OUT_OF_BOUNDS_ERR;
+
+	if(idx == 0)
+		return ll_pop(ll, dest);
+
+	LinkedListNode *node = ll->root;
+
+	while((idx - 1) > 0) {
+		node = node->next;
+		--idx;
+	}
+
+	LinkedListNode *to_free = node->next;
+	if(dest != 0)
+		*dest = to_free->item;
+
+	node->next = node->next->next;
+	free(to_free);
+
+	return NO_ERR;
+}
 
 /* ---| CUSTOM |--- */
 int ll_dump(LinkedList *ll)
