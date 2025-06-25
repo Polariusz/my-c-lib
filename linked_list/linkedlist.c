@@ -125,7 +125,28 @@ int ll_insert(LinkedList *ll, void *item, unsigned int idx)
 	return NO_ERR;
 }
 
-int ll_replace(LinkedList *ll, void *item, unsigned int idx);
+int ll_replace(LinkedList *ll, void *item, unsigned int idx)
+{
+	if(ll == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(idx > ll->cnt)
+		return OUT_OF_BOUNDS_ERR;
+
+	LinkedListNode *node = ll->root;
+
+	while(idx > 0) {
+		node = node->next;
+		--idx;
+	}
+
+	node->item = item;
+
+	return NO_ERR;
+}
 
 /* ---| DELETE |--- */
 int ll_pop(LinkedList *ll, void **dest)
