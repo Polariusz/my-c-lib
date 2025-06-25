@@ -1,5 +1,5 @@
 #include <criterion/criterion.h>
-#include "array.h"
+#include "array_list.h"
 #include <stdio.h>
 
 int *init_int_arr(int length)
