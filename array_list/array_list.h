@@ -1,33 +1,33 @@
-#ifndef ARRAY_H_
-#define ARRAY_H_
+#ifndef ARRAY_LIST_H_
+#define ARRAY_LIST_H_
 
-typedef struct Array {
+typedef struct ArrayList {
 	void **items;
 	unsigned int cnt;
 	unsigned int size;
-} Array;
+} ArrayList;
 
 /* ---| CREATE |--- */
-int array_new(Array *array);
-int array_new_ptr(Array **array);
-int array_build(Array *array, unsigned int size);
-int array_build_ptr(Array **array, unsigned int size);
+int al_new(ArrayList *array);
+int al_new_ptr(ArrayList **array);
+int al_build(ArrayList *array, unsigned int size);
+int al_build_ptr(ArrayList **array, unsigned int size);
 
 /* ---| READ |--- */
-int array_get(void **dest, Array *src, unsigned int idx);
+int al_get(void **dest, ArrayList *src, unsigned int idx);
 
 /* ---| UPDATE |--- */
-int array_add_suffix(Array *src, void *item);
-int array_add_prefix(Array *src, void *item);
-int array_insert(Array *src, void *item, unsigned int idx);
-int array_replace(Array *src, void *item, unsigned int index);
+int al_add_suffix(ArrayList *src, void *item);
+int al_add_prefix(ArrayList *src, void *item);
+int al_insert(ArrayList *src, void *item, unsigned int idx);
+int al_replace(ArrayList *src, void *item, unsigned int index);
 
 /* ---| DELETE |--- */
-int array_delete(void **dest, Array *src, unsigned int idx);
+int al_delete(void **dest, ArrayList *src, unsigned int idx);
 
 /* ---| CUSTOM |--- */
-int array_dump(Array *src, void(*dump_item)(void* item));
-int array_destroy(Array *src);
-int array_destroy_ptr(Array **src);
+int al_dump(ArrayList *src, void(*dump_item)(void* item));
+int al_destroy(ArrayList *src);
+int al_destroy_ptr(ArrayList **src);
 
 #endif

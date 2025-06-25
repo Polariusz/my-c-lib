@@ -2,16 +2,16 @@
 #include <stdio.h>
 #include "../err_lvl/err_lvl.h"
 
-typedef struct Array {
+typedef struct ArrayList {
 	void **items;
 	unsigned int cnt;
 	unsigned int size;
-} Array;
+} ArrayList;
 
 /* ---| CREATE |--- */
 #define SIZE 16
 
-int array_new(Array *array)
+int al_new(ArrayList *array)
 {
 	if(array == NULL)
 		return NULL_ERR;
@@ -27,12 +27,12 @@ int array_new(Array *array)
 	return NO_ERR;
 }
 
-int array_new_ptr(Array **array)
+int al_new_ptr(ArrayList **array)
 {
 	if(array == NULL)
 		return NULL_ERR;
 
-	*array = malloc(sizeof(Array));
+	*array = malloc(sizeof(ArrayList));
 
 	(*array)->items = malloc(SIZE * sizeof(void*));
 	if((*array)->items == NULL) {
@@ -45,7 +45,7 @@ int array_new_ptr(Array **array)
 	return NO_ERR;
 }
 
-int array_build(Array *array, unsigned int size)
+int al_build(ArrayList *array, unsigned int size)
 {
 	if(array == NULL)
 		return NULL_ERR;
@@ -64,7 +64,7 @@ int array_build(Array *array, unsigned int size)
 	return NO_ERR;
 }
 
-int array_build_ptr(Array **array, unsigned int size)
+int al_build_ptr(ArrayList **array, unsigned int size)
 {
 	if(array == NULL)
 		return NULL_ERR;
@@ -72,7 +72,7 @@ int array_build_ptr(Array **array, unsigned int size)
 	if(size < 1)
 		return ARG_ERR;
 
-	*array = malloc(sizeof(Array));
+	*array = malloc(sizeof(ArrayList));
 
 	(*array)->items = malloc(size * sizeof(void*));
 	if((*array)->items == NULL) {
@@ -86,7 +86,7 @@ int array_build_ptr(Array **array, unsigned int size)
 }
 
 /* ---| READ |--- */
-int array_get(void **dest, Array *src, unsigned int idx)
+int al_get(void **dest, ArrayList *src, unsigned int idx)
 {
 	if(dest == NULL)
 		return NULL_ERR;
@@ -103,7 +103,7 @@ int array_get(void **dest, Array *src, unsigned int idx)
 }
 
 /* ---| UPDATE |--- */
-int array_add_suffix(Array *src, void *item)
+int al_add_suffix(ArrayList *src, void *item)
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -131,7 +131,7 @@ int array_add_suffix(Array *src, void *item)
 	return NO_ERR;
 }
 
-int array_add_prefix(Array *src, void *item)
+int al_add_prefix(ArrayList *src, void *item)
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -168,7 +168,7 @@ int array_add_prefix(Array *src, void *item)
 	return NO_ERR;
 }
 
-int array_insert(Array *src, void *item, unsigned int idx)
+int al_insert(ArrayList *src, void *item, unsigned int idx)
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -202,7 +202,7 @@ int array_insert(Array *src, void *item, unsigned int idx)
 	return NO_ERR;
 }
 
-int array_replace(Array *src, void *item, unsigned int idx)
+int al_replace(ArrayList *src, void *item, unsigned int idx)
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -219,7 +219,7 @@ int array_replace(Array *src, void *item, unsigned int idx)
 }
 
 /* ---| DELETE |--- */
-int array_delete(void **dest, Array *src, unsigned int idx)
+int al_delete(void **dest, ArrayList *src, unsigned int idx)
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -240,7 +240,7 @@ int array_delete(void **dest, Array *src, unsigned int idx)
 }
 
 /* ---| CUSTOM |--- */
-int array_dump(Array *src, void(*dump_item)(void* item))
+int al_dump(ArrayList *src, void(*dump_item)(void* item))
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -256,7 +256,7 @@ int array_dump(Array *src, void(*dump_item)(void* item))
 	return NO_ERR;
 }
 
-int array_destroy(Array *src)
+int al_destroy(ArrayList *src)
 {
 	if(src == NULL)
 		return NULL_ERR;
@@ -272,7 +272,7 @@ int array_destroy(Array *src)
 	return NO_ERR;
 }
 
-int array_destroy_ptr(Array **src)
+int al_destroy_ptr(ArrayList **src)
 {
 	if(src == NULL)
 		return NULL_ERR;
