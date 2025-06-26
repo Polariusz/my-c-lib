@@ -224,7 +224,8 @@ Test(al_get, oob)
 	al_destroy_ptr(&array);
 }
 
-Test(al_delete, complex) {
+Test(al_delete, complex)
+{
 	int a = 0;
 	int b = 1;
 	int c = 2;
@@ -245,4 +246,67 @@ Test(al_delete, complex) {
 	res = al_delete(array, &yoink, 0); cr_expect(res != 0);
 
 	al_destroy_ptr(&array);
+}
+
+Test(al_insert, growing)
+{
+	const int ARR_SIZE = 33;
+
+	int *arr = init_int_arr(ARR_SIZE);
+	ArrayList *array;
+	al_new_ptr(&array);
+
+	unsigned int cnt = ARR_SIZE;
+	int res = 0;
+	while(cnt > 0) {
+		--cnt;
+		res = al_add_suffix(array, &arr[cnt]); cr_expect(res == 0);
+	}
+
+	cr_assert_gt(array->size, 32);
+	cr_assert_geq(array->size, array->cnt);
+	cr_assert_eq(array->items[array->cnt-1], &arr[0]);
+	cr_assert_eq(array->items[array->cnt-2], &arr[1]);
+
+	al_destroy_ptr(&array);
+	free(arr);
+}
+
+Test(al_delete, shrinking)
+{
+	const int ARR_SIZE = 33;
+
+	int *arr = init_int_arr(ARR_SIZE);
+	ArrayList *array;
+	al_new_ptr(&array);
+
+	unsigned int cnt = ARR_SIZE;
+	int res = 0;
+	while(cnt > 0) {
+		--cnt;
+		res = al_add_suffix(array, &arr[cnt]); cr_expect(res == 0);
+	}
+
+	cr_assert_eq(array->size, 64);
+
+	res = al_delete(array, NULL, array->cnt-1); cr_expect(res == 0);
+	res = al_delete(array, NULL, array->cnt-1); cr_expect(res == 0);
+
+	cr_assert_eq(array->size, 32);
+
+	for(int i = 0; i < ARR_SIZE/2; i++) {
+		res = al_delete(array, NULL, array->cnt-1); cr_expect(res == 0);
+	}
+
+	cr_assert_eq(array->size, 16);
+
+	while(res == 0) {
+		res = al_delete(array, NULL, array->cnt-1);
+	}
+
+	cr_assert_eq(array->size, 16);
+	cr_assert_eq(array->cnt, 0);
+
+	al_destroy_ptr(&array);
+	free(arr);
 }
