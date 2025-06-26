@@ -236,6 +236,20 @@ int al_delete(ArrayList *al, void **dest, unsigned int idx)
 	al->items[al->cnt] = NULL;
 	--al->cnt;
 
+	if(al->size/2 > al->cnt && al->size/2 >= SIZE) {
+		void **new_items = malloc((al->size/2) * sizeof(void*));
+		if(new_items == NULL)
+			return MEM_ERR;
+
+		for(unsigned int i = 0; i < al->cnt; i++) {
+			new_items[i] = al->items[i];
+		}
+		free(al->items);
+		al->items = new_items;
+
+		al->size /= 2;
+	}
+
 	return NO_ERR;
 }
 
