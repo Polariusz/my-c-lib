@@ -186,6 +186,7 @@ int logger_destroy(Logger *l)
 	fclose(l->fd);
 	l->fd = NULL;
 	l->log_from = 0;
+	l->colour = 0;
 	l->console_log = 0;
 
 	return NO_ERR;
@@ -196,7 +197,9 @@ int logger_destroy_ptr(Logger **l)
 	if(l == NULL)
 		return NULL_ERR;
 
-	logger_destroy(*l);
+	int res = logger_destroy(*l);
+	if(res != 0)
+		return res;
 
 	free(*l);
 	*l = NULL;
