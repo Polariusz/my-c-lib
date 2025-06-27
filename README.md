@@ -1,22 +1,21 @@
-### DONE:
-
-#### Data Structures:
+### DONE
 
 - Array List
   - array\_list/array\_list.h
+
+### Needing tests
+
 - Linked List
   - linked\_list/linked\_list.h
-
-### TODO:
-
-#### Data Structures:
-
-- Binary Tree
-  - binary\_tree/binary\_tree.h
 - Logger
   - logger/logger.h
 
-#### Some other things:
+### In implementation
+
+### Ideas
+
+- Binary Tree
+  - binary\_tree/binary\_tree.h
 - Arena
   - arena.h
   - maybe?
