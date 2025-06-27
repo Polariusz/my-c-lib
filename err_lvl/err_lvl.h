@@ -7,6 +7,7 @@ enum ERR_LVL {
 	MEM_ERR,
 	ARG_ERR,
 	OUT_OF_BOUNDS_ERR,
+	INT_PANIC,
 };
 
 #endif
