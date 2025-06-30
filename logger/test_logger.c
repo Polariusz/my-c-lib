@@ -9,8 +9,8 @@ Test(get_log_type_as_str, equal_size_not_coloured)
 	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_FINE, 0)));
 	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_WARN, 0)));
 	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_ERROR, 0)));
-	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_PANIC, 0)));
-	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_PANIC+1, 0)));
+	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_FATAL, 0)));
+	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_FATAL+1, 0)));
 }
 
 Test(get_log_type_as_str, equal_size_coloured)
@@ -20,8 +20,8 @@ Test(get_log_type_as_str, equal_size_coloured)
 	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_FINE, 1)));
 	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_WARN, 1)));
 	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_ERROR, 1)));
-	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_PANIC, 1)));
-	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_PANIC+1, 1)));
+	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_FATAL, 1)));
+	cr_assert_eq(header_len, strlen(get_log_type_as_str(LOG_FATAL+1, 1)));
 }
 
 Test(logger, init_and_destroy)

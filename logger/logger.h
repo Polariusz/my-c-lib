@@ -8,7 +8,7 @@ typedef enum LOG_TYPE {
 	LOG_FINE,
 	LOG_WARN,
 	LOG_ERROR,
-	LOG_PANIC,
+	LOG_FATAL,
 } LOG_TYPE;
 
 char *get_log_type_as_str(LOG_TYPE type, int is_coloured);
@@ -25,7 +25,7 @@ int logger_debug(Logger *l, char *msg);
 int logger_fine(Logger *l, char *msg);
 int logger_warn(Logger *l, char *msg);
 int logger_error(Logger *l, char *msg);
-int logger_panic(Logger *l, char *msg);
+int logger_fatal(Logger *l, char *msg);
 
 int logger_new(Logger *l, char *log_path, LOG_TYPE log_from, int colour, int console_log);
 int logger_new_ptr(Logger **l, char *log_path, LOG_TYPE log_from, int colour, int console_log);

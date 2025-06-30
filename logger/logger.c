@@ -10,7 +10,7 @@ typedef enum LOG_TYPE {
 	LOG_FINE,
 	LOG_WARN,
 	LOG_ERROR,
-	LOG_PANIC,
+	LOG_FATAL,
 } LOG_TYPE;
 
 char *get_log_type_as_str(LOG_TYPE type, int is_coloured)
@@ -38,11 +38,11 @@ char *get_log_type_as_str(LOG_TYPE type, int is_coloured)
 				return "\033[91m|ERROR|\033[0m";
 			else
 				return "|ERROR|";
-		case LOG_PANIC:
+		case LOG_FATAL:
 			if(is_coloured)
-				return "\033[31m|PANIC|\033[0m";
+				return "\033[31m|FATAL|\033[0m";
 			else
-				return "|PANIC|";
+				return "|FATAL|";
 		default:
 			if(is_coloured)
 				return "\033[95m|NCLUE|\033[0m";
@@ -132,10 +132,9 @@ int logger_error(Logger *l, char *msg)
 	return logger_message(l, LOG_ERROR, msg);
 }
 
-int logger_panic(Logger *l, char *msg)
+int logger_fatal(Logger *l, char *msg)
 {
-	int res = logger_message(l, LOG_PANIC, msg);
-	exit(res == 0 ? INT_PANIC : res);
+	int res = logger_message(l, LOG_FATAL, msg);
 }
 
 int logger_new(Logger *l, char * log_path, LOG_TYPE log_from, int colour, int console_log)
