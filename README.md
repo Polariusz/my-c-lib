@@ -7,11 +7,10 @@
   - Note:
     - The testing is lacking kind of, I don't really know how should I test it well.
     - Perhaps by using it I will find some weaknesses
-
-### Needing tests
-
 - Linked List
   - linked\_list/linked\_list.h
+
+### Needing tests
 
 ### In implementation
 
