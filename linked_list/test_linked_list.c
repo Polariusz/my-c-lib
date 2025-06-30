@@ -190,19 +190,42 @@ Test(delete, curious)
 	int b = 10;
 	int c = 20;
 
-	ll_push(ll, &a);
-	ll_push(ll, &b);
-	ll_push(ll, &c);
+	res = ll_push(ll, &a); cr_assert(res == 0);
+	res = ll_push(ll, &b); cr_assert(res == 0);
+	res = ll_push(ll, &c); cr_assert(res == 0);
 
 	void *yoink = NULL;
 	res = ll_get(ll, &yoink, 1); cr_assert(res == 0);
 	cr_assert_eq(yoink, &b);
 
-	ll_pop(ll, NULL);
-	ll_pop(ll, NULL);
-	ll_pop(ll, NULL);
+	res = ll_delete(ll, 1); cr_assert(res == 0);
+	res = ll_delete(ll, 1); cr_assert(res == 0);
+	res = ll_delete(ll, 0); cr_assert(res == 0);
 
 	cr_assert_eq(yoink, &b);
+
+	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
+	cr_assert(NULL == ll);
+}
+
+Test(remove, simple)
+{
+	int res = 0;
+	LinkedList *ll; res = ll_new_ptr(&ll, &dump_item); cr_assert(res == 0);
+	int a = 0;
+	int b = 10;
+	int c = 20;
+
+	res = ll_push(ll, &a); cr_assert(res == 0);
+	res = ll_push(ll, &b); cr_assert(res == 0);
+	res = ll_push(ll, &c); cr_assert(res == 0);
+
+	ll_dump(ll);
+
+	void *yoink = NULL;
+	res = ll_remove(ll, &yoink, 1);
+
+	cr_assert_eq(&b, yoink);
 
 	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
 	cr_assert(NULL == ll);
