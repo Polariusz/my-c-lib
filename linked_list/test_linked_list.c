@@ -2,9 +2,10 @@
 #include <criterion/criterion.h>
 #include "linked_list.h"
 
-void dump_item(void *item)
+void dump_item(char *buf, void *item)
 {
-	printf("%d", *(int*)item);
+	int foo = *(int*)item;
+	sprintf(buf, "%d", foo);
 }
 
 Test(init_destroy, simple)
@@ -132,11 +133,76 @@ Test(delete, simple)
 	res = ll_new_ptr(&ll, &dump_item); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
-	void *yoink = NULL;
-	res = ll_delete(ll, &yoink, 0); cr_assert(res == 0);
-	cr_assert_eq(yoink, &a);
+	res = ll_delete(ll, 0); cr_assert(res == 0);
 
 	cr_assert_eq(ll->cnt, 0);
+
+	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
+	cr_assert(NULL == ll);
+}
+
+Test(crud, complex)
+{
+	int res = 0;
+	LinkedList *ll;
+	int a = 0;
+	int b = 10;
+	int c = 20;
+	int d = 30;
+	int e = 40;
+
+	res = ll_new_ptr(&ll, &dump_item); cr_assert(res == 0);
+	res = ll_push(ll, &a); cr_assert(res == 0);      // 0 -> NULL
+	res = ll_insert(ll, &b, 1); cr_assert(res == 0); // 0 -> 10 -> NULL
+	res = ll_push(ll, &c); cr_assert(res == 0);      // 20 -> 0 -> 10 -> NULL
+	res = ll_insert(ll, &d, 2); cr_assert(res == 0); // 20 -> 0 -> 30 -> 10 -> NULL
+
+	void *yoink = NULL;
+	res = ll_get(ll, &yoink, 0); cr_assert(res == 0);
+	cr_assert_eq(yoink, &c);
+
+	res = ll_get(ll, &yoink, 1); cr_assert(res == 0);
+	cr_assert_eq(yoink, &a);
+
+	res = ll_get(ll, &yoink, 2); cr_assert(res == 0);
+	cr_assert_eq(yoink, &d);
+
+	res = ll_get(ll, &yoink, 3); cr_assert(res == 0);
+	cr_assert_eq(yoink, &b);
+
+	res = ll_replace(ll, &e, 3); cr_assert(res == 0); // 20 -> 0 -> 30 -> 40 -> NULL
+	res = ll_get(ll, &yoink, 3); cr_assert(res == 0);
+	cr_assert_neq(yoink, &b);
+	cr_assert_eq(yoink, &e);
+
+	res = ll_pop(ll, NULL); cr_assert(res == 0); // 0 -> 30 -> 40 -> NULL
+	res = ll_delete(ll, 1); cr_assert(res == 0); // 0 -> 40 -> NULL
+
+	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
+	cr_assert(NULL == ll);
+}
+
+Test(delete, curious)
+{
+	int res = 0;
+	LinkedList *ll; res = ll_new_ptr(&ll, &dump_item); cr_assert(res == 0);
+	int a = 0;
+	int b = 10;
+	int c = 20;
+
+	ll_push(ll, &a);
+	ll_push(ll, &b);
+	ll_push(ll, &c);
+
+	void *yoink = NULL;
+	res = ll_get(ll, &yoink, 1); cr_assert(res == 0);
+	cr_assert_eq(yoink, &b);
+
+	ll_pop(ll, NULL);
+	ll_pop(ll, NULL);
+	ll_pop(ll, NULL);
+
+	cr_assert_eq(yoink, &b);
 
 	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
 	cr_assert(NULL == ll);

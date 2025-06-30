@@ -9,12 +9,12 @@ typedef struct LinkedListNode {
 typedef struct LinkedList {
 	LinkedListNode *root;
 	unsigned int cnt;
-	void(*dump_item)(void* item);
+	void(*dump_item)(char *buf, void* item);
 } LinkedList;
 
 /* ---| CREATE |--- */
-int ll_new(LinkedList* ll, void(*dump_item)(void* item));
-int ll_new_ptr(LinkedList** ll, void(*dump_item)(void* item));
+int ll_new(LinkedList *ll, void(*dump_item)(char *buf, void *item));
+int ll_new_ptr(LinkedList **ll, void(*dump_item)(char *buf, void *item));
 
 /* ---| READ |--- */
 int ll_get(LinkedList *ll, void **dest, unsigned int idx);
@@ -26,7 +26,7 @@ int ll_replace(LinkedList *ll, void *item, unsigned int idx);
 
 /* ---| DELETE |--- */
 int ll_pop(LinkedList *ll, void **dest);
-int ll_delete(LinkedList *ll, void **dest, unsigned int idx);
+int ll_delete(LinkedList *ll, unsigned int idx);
 
 /* ---| CUSTOM |--- */
 int ll_dump(LinkedList *ll);

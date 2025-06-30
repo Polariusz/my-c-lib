@@ -10,11 +10,11 @@ typedef struct LinkedListNode {
 typedef struct LinkedList {
 	LinkedListNode *root;
 	unsigned int cnt;
-	void(*dump_item)(void* item);
+	void(*dump_item)(char *buf, void* item);
 } LinkedList;
 
 /* ---| CREATE |--- */
-int ll_new(LinkedList* ll, void(*dump_item)(void* item))
+int ll_new(LinkedList* ll, void(*dump_item)(char *buf, void *item))
 {
 	if(ll == NULL)
 		return NULL_ERR;
@@ -29,7 +29,7 @@ int ll_new(LinkedList* ll, void(*dump_item)(void* item))
 	return NO_ERR;
 }
 
-int ll_new_ptr(LinkedList** ll, void(*dump_item)(void* item))
+int ll_new_ptr(LinkedList** ll, void(*dump_item)(char *buf, void *item))
 {
 	if(ll == NULL)
 		return NULL_ERR;
@@ -121,6 +121,7 @@ int ll_insert(LinkedList *ll, void *item, unsigned int idx)
 
 	new_node->next = node->next;
 	node->next = new_node;
+	ll->cnt += 1;
 
 	return NO_ERR;
 }
@@ -171,7 +172,7 @@ int ll_pop(LinkedList *ll, void **dest)
 	return NO_ERR;
 }
 
-int ll_delete(LinkedList *ll, void **dest, unsigned int idx)
+int ll_delete(LinkedList *ll, unsigned int idx)
 {
 	if(ll == NULL)
 		return NULL_ERR;
@@ -180,7 +181,7 @@ int ll_delete(LinkedList *ll, void **dest, unsigned int idx)
 		return OUT_OF_BOUNDS_ERR;
 
 	if(idx == 0)
-		return ll_pop(ll, dest);
+		return ll_pop(ll, NULL);
 
 	LinkedListNode *node = ll->root;
 
@@ -190,10 +191,11 @@ int ll_delete(LinkedList *ll, void **dest, unsigned int idx)
 	}
 
 	LinkedListNode *to_free = node->next;
-	if(dest != 0)
-		*dest = to_free->item;
+	to_free->item = NULL;
 
 	node->next = node->next->next;
+	ll->cnt -= 1;
+
 	free(to_free);
 
 	return NO_ERR;
@@ -210,11 +212,12 @@ int ll_dump(LinkedList *ll)
 
 	LinkedListNode *node = ll->root;
 	while(node != NULL) {
-		ll->dump_item(node->item);
-		printf(" ");
+		char buf[8] = {0};
+		ll->dump_item(buf, node->item);
+		printf("%s->", buf);
 		node = node->next;
 	}
-	printf("\n");
+	printf("NULL\n");
 
 	return NO_ERR;
 }
