@@ -22,3 +22,7 @@
 - StringBuilder
   - string\_builder.h
   - Basically it is a Linked List of char arrays.
+- Hash Table
+  - hash\_table.h
+- Graph
+  - graph.h
