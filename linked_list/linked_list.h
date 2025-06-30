@@ -27,6 +27,7 @@ int ll_replace(LinkedList *ll, void *item, unsigned int idx);
 /* ---| DELETE |--- */
 int ll_pop(LinkedList *ll, void **dest);
 int ll_delete(LinkedList *ll, unsigned int idx);
+int ll_remove(LinkedList *ll, void **dest, unsigned int idx);
 
 /* ---| CUSTOM |--- */
 int ll_dump(LinkedList *ll);
