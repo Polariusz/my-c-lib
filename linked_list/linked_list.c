@@ -221,6 +221,9 @@ int ll_dump(LinkedList *ll)
 
 void purge_nodes(LinkedListNode *node)
 {
+	if(node == NULL)
+		return;
+
 	if(node->next != NULL)
 		purge_nodes(node->next);
 
