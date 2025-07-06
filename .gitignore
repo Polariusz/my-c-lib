@@ -10,3 +10,6 @@ logger/log.out
 
 hash_map/a.out
 hash_map/main.c
+
+string/a.out
+string/main.c

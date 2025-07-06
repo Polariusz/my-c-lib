@@ -13,9 +13,12 @@
 ### Needing tests
 
 - Hash Table
-  - hash\_map.h
+  - hash\_map/hash\_map.h
 
 ### In implementation
+
+- String
+  - string/string.h
 
 ### Ideas
 
