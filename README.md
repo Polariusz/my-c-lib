@@ -14,11 +14,10 @@
 
 - Hash Table
   - hash\_map/hash\_map.h
-
-### In implementation
-
 - String
   - string/string.h
+
+### In implementation
 
 ### Ideas
 
