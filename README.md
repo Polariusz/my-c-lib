@@ -12,6 +12,9 @@
 
 ### Needing tests
 
+- Hash Table
+  - hash\_map.h
+
 ### In implementation
 
 ### Ideas
@@ -24,7 +27,5 @@
 - StringBuilder
   - string\_builder.h
   - Basically it is a Linked List of char arrays.
-- Hash Table
-  - hash\_table.h
 - Graph
   - graph.h
