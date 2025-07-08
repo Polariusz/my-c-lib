@@ -220,3 +220,134 @@ Test(get_chars_slice_with_nul, good_slice)
 	res = string_destroy_ptr(&str); cr_assert(res == 0);
 	cr_assert(str == NULL);
 }
+
+Test(get_chars_slice_with_nul, good_full)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {10};
+	memset(dest, '\n', 32);
+	res = string_get_chars_slice_with_nul(str, 0, 5, dest); cr_assert(res == 0);
+	cr_assert_eq(dest[0], 'H');
+	cr_assert_eq(dest[1], 'e');
+	cr_assert_eq(dest[2], 'l');
+	cr_assert_eq(dest[3], 'l');
+	cr_assert_eq(dest[4], 'o');
+	cr_assert_eq(dest[5], '\0');
+	cr_assert_eq(dest[6], '\n');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_chars_slice_with_nul, bad_arg_to_out_of_bounds)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {0};
+	res = string_get_chars_slice_with_nul(str, 0, 6, dest); cr_assert(res != 0);
+	cr_assert_neq(dest[0], 'H');
+	cr_assert_neq(dest[1], 'e');
+	cr_assert_neq(dest[2], 'l');
+	cr_assert_neq(dest[3], 'l');
+	cr_assert_neq(dest[4], 'o');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_chars_slice_with_nul, bad_arg_from_out_of_bounds)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {0};
+	res = string_get_chars_slice_with_nul(str, 6, 8, dest); cr_assert(res != 0);
+	cr_assert_neq(dest[0], 'H');
+	cr_assert_neq(dest[1], 'e');
+	cr_assert_neq(dest[2], 'l');
+	cr_assert_neq(dest[3], 'l');
+	cr_assert_neq(dest[4], 'o');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_chars_slice_with_nul, bad_arg_from_equal_with_arg_to)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {0};
+	res = string_get_chars_slice_with_nul(str, 3, 3, dest); cr_assert(res != 0);
+	cr_assert_neq(dest[0], 'H');
+	cr_assert_neq(dest[1], 'e');
+	cr_assert_neq(dest[2], 'l');
+	cr_assert_neq(dest[3], 'l');
+	cr_assert_neq(dest[4], 'o');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_chars_slice_with_nul, good_single_char_with_nul)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {10};
+	memset(dest, '\n', 32);
+	res = string_get_chars_slice_with_nul(str, 1, 2, dest); cr_assert(res == 0);
+	cr_assert_eq(dest[0], 'e');
+	cr_assert_neq(dest[1], 'l');
+	cr_assert_eq(dest[1], '\0');
+	cr_assert_eq(dest[2], '\n');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_chars_slice_with_nul, bad_no_stray_nul)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {10};
+	memset(dest, '\n', 32);
+	res = string_get_chars_slice_with_nul(str, 1, 1, dest); cr_assert(res != 0);
+	cr_assert_neq(dest[0], '\0');
+	cr_assert_neq(dest[1], '\0');
+	cr_assert_neq(dest[2], '\0');
+	cr_assert_neq(dest[3], '\0');
+	cr_assert_neq(dest[4], '\0');
+	cr_assert_neq(dest[5], '\0');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
