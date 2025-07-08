@@ -1,4 +1,5 @@
 #include <criterion/criterion.h>
+#include <string.h>
 #include "string.h"
 
 Test(init_and_destroy, good_simple)
@@ -83,7 +84,7 @@ Test(get_chars_slice, good_slice)
 	cr_assert_eq(dest[1], 'e');
 	cr_assert_eq(dest[2], 'l');
 	cr_assert_eq(dest[3], 'l');
-	// The '4' is exclusive. I zero the memory for the dest with {0} (I think that this works this way), so dest[4] should never be 'o'.
+	// The '4' is exclusive. The dest array is zeroed automatically so dest[4] should never be 'o'.
 	cr_assert_neq(dest[4], 'o');
 
 	/* DETROY */
@@ -187,6 +188,33 @@ Test(get_chars_slice, good_single_char)
 	res = string_get_chars_slice(str, 1, 2, dest); cr_assert(res == 0);
 	cr_assert_eq(dest[0], 'e');
 	cr_assert_neq(dest[1], 'l');
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_chars_slice_with_nul, good_slice)
+{
+	// Since the function behaves almost the same way as get_chars_slice (it literally uses it and then appends the NUL terminator), the test will look similar.
+
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	char dest[32] = {10};
+	memset(dest, '\n', 32);
+	res = string_get_chars_slice_with_nul(str, 0, 4, dest); cr_assert(res == 0);
+	cr_assert_eq(dest[0], 'H');
+	cr_assert_eq(dest[1], 'e');
+	cr_assert_eq(dest[2], 'l');
+	cr_assert_eq(dest[3], 'l');
+	cr_assert_neq(dest[4], 'o'); // Shouldn't be 'o', because we exclude it with the arg 'to' set to 4
+	cr_assert_neq(dest[4], '\n'); // Shouldn't be '\n', because the function overwrites this position to be NUL.
+	cr_assert_eq(dest[4], '\0'); // Should be '\0', because the function appends the char '\0' at the end.
+	cr_assert_eq(dest[5], '\n'); // Should be '\n', as it is not touched.
 
 	/* DETROY */
 	res = string_destroy_ptr(&str); cr_assert(res == 0);
