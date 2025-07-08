@@ -80,7 +80,7 @@ int string_get_chars_slice(String *str, unsigned int from, unsigned int to, char
 	if(str == NULL)
 		return NULL_ERR;
 
-	if(from > to)
+	if(from >= to)
 		return ARG_ERR;
 
 	if(to > str->c_chars)
