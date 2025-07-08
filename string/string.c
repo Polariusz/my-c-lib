@@ -16,7 +16,7 @@ int string_new(String *str, char *chars, unsigned int c_chars)
 	if(chars == NULL)
 		return NULL_ERR;
 
-	int len = 0;
+	unsigned int len = 0;
 	char *chars_ptr = chars;
 
 	while(len < c_chars) {
@@ -31,7 +31,7 @@ int string_new(String *str, char *chars, unsigned int c_chars)
 	if(str->chars == NULL)
 		return MEM_ERR;
 
-	int cnt = 0;
+	unsigned int cnt = 0;
 	while(cnt < len) {
 		str->chars[cnt] = *chars;
 		++chars;
@@ -43,7 +43,20 @@ int string_new(String *str, char *chars, unsigned int c_chars)
 	return NO_ERR;
 }
 
-int string_new_ptr(String **str, char *chars, unsigned int c_chars);
+int string_new_ptr(String **str, char *chars, unsigned int c_chars)
+{
+	if(str == NULL)
+		return NULL_ERR;
+
+	*str = malloc(sizeof(String));
+	int res = string_new(*str, chars, c_chars);
+	if(res != NO_ERR) {
+		free(*str);
+		return res;
+	}
+
+	return NO_ERR;
+}
 
 /* ---| READ |--- */
 int string_get_char(String *str, unsigned int idx, char *dest)
@@ -76,7 +89,7 @@ int string_get_chars_slice(String *str, unsigned int from, unsigned int to, char
 	if(dest == NULL)
 		return NULL_ERR;
 
-	for(int i = from; i < to; i++) {
+	for(unsigned int i = from; i < to; i++) {
 		dest[i-from] = str->chars[i];
 	}
 
@@ -147,7 +160,7 @@ int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int
 	if(idx >= str->c_chars)
 		return ARG_ERR;
 
-	for(int i = idx; i < idx + c_chars; i++) {
+	for(unsigned int i = idx; i < idx + c_chars; i++) {
 		str->chars[i] = chars[i - idx];
 	}
 
@@ -163,6 +176,8 @@ int string_dump(String *str)
 
 	write(1, str->chars, str->c_chars);
 	write(1, "\n", 1);
+
+	return NO_ERR;
 }
 
 int string_destroy(String *str)
