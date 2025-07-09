@@ -185,7 +185,7 @@ int string_cmp(String *left, String *right)
 	// Now.. Someone could just modify the c_chars manually to for example 10 times of it's original state for both the arguments. In that case, the for loop below will probably segfault.. or not! If not, it might return unequality or not, depending if the memory past allocated char arrays is zeroed or not.
 
 	// chars
-	for(int i = 0; i < left->c_chars; i++) {
+	for(unsigned int i = 0; i < left->c_chars; i++) {
 		if(left->chars[i] != right->chars[i])
 			return left->chars[i] - right->chars[i];
 	}
