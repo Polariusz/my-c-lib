@@ -455,3 +455,90 @@ Test(get_string_slice, bad_args)
 	/* DETROY */
 	res = string_destroy(&str); cr_assert(res == 0);
 }
+
+Test(get_chars, good_simple)
+{
+	// The function string_get_chars literally only uses string_get_chars_slice() where it sets arguments 'from' to be 0 and 'to' to be c_chars
+
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Monika is very sweet", 20); cr_assert(res == 0);
+
+	/* Main thing */
+	char buf[32] = {10};
+	memset(buf, '\n', 32);
+
+	res = string_get_chars(&str, buf); cr_assert(res == 0);
+	cr_assert_neq(buf[0], '\n');
+	cr_assert_eq(buf[0], 'M');
+
+	cr_assert_neq(buf[19], '\n');
+	cr_assert_eq(buf[19], 't');
+
+	cr_assert_eq(buf[20], '\n');
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
+
+Test(get_chars_with_nul, good_simple)
+{
+	// The function string_get_chars literally only uses string_get_chars_slice_with_nul() where it sets arguments 'from' to be 0 and 'to' to be c_chars
+
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Monika is so cute", 17); cr_assert(res == 0);
+
+	/* Main thing */
+	char buf[32] = {10};
+	memset(buf, '\n', 32);
+
+	res = string_get_chars_with_nul(&str, buf); cr_assert(res == 0);
+	cr_assert_neq(buf[0], '\n');
+	cr_assert_eq(buf[0], 'M');
+
+	cr_assert_neq(buf[16], '\n');
+	cr_assert_eq(buf[16], 'e');
+
+	cr_assert_eq(buf[17], '\0');
+	cr_assert_eq(buf[18], '\n');
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
+
+Test(set_char_at, good_simple)
+{
+	// Because we are not dealing with a string literal, we can easily modify what is inside of the char array!
+
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Monika is amazing!", 18); cr_assert(res == 0);
+
+	/* Main thing */
+	res = string_set_char_at(&str, 10, 'A'); cr_assert(res == 0);
+	// => 'Monika is Amazing!'
+
+	cr_assert_neq(str.chars[10], 'a');
+	cr_assert_eq(str.chars[10], 'A');
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
+
+Test(set_char_at, bad_oob)
+{
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Just Monika", 11); cr_assert(res == 0);
+
+	/* Main thing */
+	res = string_set_char_at(&str, 11, 'A'); cr_assert(res != 0);
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
