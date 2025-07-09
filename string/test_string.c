@@ -351,3 +351,107 @@ Test(get_chars_slice_with_nul, bad_no_stray_nul)
 	res = string_destroy_ptr(&str); cr_assert(res == 0);
 	cr_assert(str == NULL);
 }
+
+Test(get_string_slice, good_simple)
+{
+	// The string_get_string_slice() function uses the string_get_chars_slice() inside to get the slice of characters to store in char *chars.
+
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Hello", 5); cr_assert(res == 0);
+
+	/* Main thing */
+	String str2;
+	res = string_get_string_slice(str, 0, 5, &str2); cr_assert(res == 0);
+
+	res = string_cmp(str, &str2); cr_assert(res == 0);
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_string_slice, good_from_one_two)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Just Monika, I love Monika", 26); cr_assert(res == 0);
+
+	/* Main thing */
+	String str2;
+	res = string_get_string_slice(str, 5, 11, &str2); cr_assert(res == 0);
+
+	String str3;
+	res = string_get_string_slice(str, 20, 26, &str3); cr_assert(res == 0);
+
+	res = string_cmp(&str2, &str3); cr_assert(res == 0);
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_string_slice, bad_different_same_len_slices)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Monika is monikawaii", 20); cr_assert(res == 0);
+
+	/* Main thing */
+	String str2; // 'onika '
+	res = string_get_string_slice(str, 1, 7, &str2); cr_assert(res == 0);
+
+	String str3; // 'onikaw'
+	res = string_get_string_slice(str, 11, 17, &str3); cr_assert(res == 0);
+
+	res = string_cmp(&str2, &str3); cr_assert(res != 0);
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_string_slice, bad_different_len)
+{
+	/* INIT */
+	int res = 0;
+	String *str;
+	res = string_new_ptr(&str, "Monika is so beautiful", 22); cr_assert(res == 0);
+
+	/* Main thing */
+	String str2; // 'Monika'
+	res = string_get_string_slice(str, 0, 6, &str2); cr_assert(res == 0);
+
+	String str3; // ' is so '
+	res = string_get_string_slice(str, 6, 13, &str3); cr_assert(res == 0);
+
+	res = string_cmp(&str2, &str3); cr_assert(res != 0);
+
+	/* DETROY */
+	res = string_destroy_ptr(&str); cr_assert(res == 0);
+	cr_assert(str == NULL);
+}
+
+Test(get_string_slice, bad_args)
+{
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Monika is so beautiful", 22); cr_assert(res == 0);
+
+	/* Main thing */
+	String str2;
+	res = string_get_string_slice(&str, 0, 666, NULL); cr_assert(res != 0);
+	res = string_get_string_slice(&str, 777, 666, &str2); cr_assert(res != 0);
+	res = string_get_string_slice(&str, 4, 4, &str2); cr_assert(res != 0);
+	res = string_get_string_slice(&str, 21, 22, &str2); cr_assert(res == 0);
+	cr_assert_eq(str2.chars[0], 'l');
+	cr_assert_eq(str2.c_chars, 1);
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
