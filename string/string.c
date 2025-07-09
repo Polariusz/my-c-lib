@@ -166,6 +166,33 @@ int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int
 
 /* ---| DELETE |--- */
 /* ---| CUSTOM |--- */
+int string_cmp(String *left, String *right)
+{
+	// first, check for nulls
+	if(left == NULL && right == NULL)
+		return 0;
+	else if(left == NULL && right != NULL)
+		return -1;
+	else if(left != NULL && right == NULL)
+		return 1;
+
+	// Both aren't null; check for the content
+
+	// c_chars
+	if(left->c_chars != right->c_chars) {
+		return left->c_chars - right->c_chars;
+	}
+	// Now.. Someone could just modify the c_chars manually to for example 10 times of it's original state for both the arguments. In that case, the for loop below will probably segfault.. or not! If not, it might return unequality or not, depending if the memory past allocated char arrays is zeroed or not.
+
+	// chars
+	for(int i = 0; i < left->c_chars; i++) {
+		if(left->chars[i] != right->chars[i])
+			return left->chars[i] - right->chars[i];
+	}
+
+	return 0;
+}
+
 int string_dump(String *str)
 {
 	if(str == NULL)

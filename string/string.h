@@ -24,6 +24,7 @@ int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int
 
 /* ---| DELETE |--- */
 /* ---| CUSTOM |--- */
+int string_cmp(String *left, String *right);
 int string_dump(String *str);
 int string_destroy(String *str);
 int string_destroy_ptr(String **str);
