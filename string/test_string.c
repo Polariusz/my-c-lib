@@ -542,3 +542,21 @@ Test(set_char_at, bad_oob)
 	/* DETROY */
 	res = string_destroy(&str); cr_assert(res == 0);
 }
+
+Test(set_chars_at, good_simple)
+{
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Mlem Plink OwO", 14); cr_assert(res == 0);
+
+	/* Main thing */
+	res = string_set_chars_at(&str, 0, "Moni Moni Moni", 14); cr_assert(res == 0);
+
+	char buf[15];
+	string_get_chars_with_nul(&str, buf);
+	res = strcmp("Moni Moni Moni", buf); cr_assert(res == 0);
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
