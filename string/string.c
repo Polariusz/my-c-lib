@@ -109,20 +109,17 @@ int string_get_chars_slice_with_nul(String *str, unsigned int from, unsigned int
 
 int string_get_string_slice(String *str, unsigned int from, unsigned int to, String *dest)
 {
-	if(str == NULL)
-		return ARG_ERR;
-
-	if(from > to)
-		return ARG_ERR;
-
-	if(to > str->c_chars)
-		return ARG_ERR;
-
 	if(dest == NULL)
 		return NULL_ERR;
 
 	dest->chars = malloc((to - from) * sizeof(char));
-	string_get_chars_slice(str, from, to, dest->chars);
+	int res = string_get_chars_slice(str, from, to, dest->chars);
+	if(res != NO_ERR) {
+		free(dest->chars);
+		dest->chars = NULL;
+
+		return res;
+	}
 	dest->c_chars = to - from;
 
 	return NO_ERR;
