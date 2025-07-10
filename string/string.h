@@ -7,7 +7,10 @@ typedef struct String {
 } String;
 
 /* ---| CREATE |--- */
+__attribute__ ((access (read_only, 2, 3)))
 int string_new(String *str, char *chars, unsigned int c_chars);
+
+__attribute__ ((access (read_only, 2, 3)))
 int string_new_ptr(String **str, char *chars, unsigned int c_chars);
 
 /* ---| READ |--- */
@@ -20,6 +23,8 @@ int string_get_chars_with_nul(String *str, char *dest);
 
 /* ---| UPDATE |--- */
 int string_set_char_at(String *str, unsigned int idx, char character);
+
+__attribute__ ((access (read_only, 3, 4)))
 int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int c_chars);
 
 /* ---| DELETE |--- */
