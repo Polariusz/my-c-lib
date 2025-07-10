@@ -560,3 +560,179 @@ Test(set_chars_at, good_simple)
 	/* DETROY */
 	res = string_destroy(&str); cr_assert(res == 0);
 }
+
+Test(set_chars_at, good_changing_slice)
+{
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Moni is so cute and amazing", 27); cr_assert(res == 0);
+
+	/* Main thing */
+	res = string_set_chars_at(&str, 4, "ka is cuu", 9); cr_assert(res == 0);
+
+	char buf[28];
+	string_get_chars_with_nul(&str, buf);
+	res = strcmp("Monika is cuute and amazing", buf); cr_assert(res == 0);
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
+
+Test(set_chars_at, good_len_greater_than_c_chars)
+{
+	// If the c_chars is greater than the count of the characters that you can see when writing, the NUL terminator will be written into the chars array.
+	// This is fine if you wish to have it in the middle of the chars, I've written the data structure to allow to write the NUL like that to mantain the flexibility.
+
+	/* INIT */
+	int res = 0;
+	String str;
+	res = string_new(&str, "Moni is so cute and amazing", 27); cr_assert(res == 0);
+
+	/* Main thing */
+	res = string_set_chars_at(&str, 4, "ka is cuu", 10); cr_assert(res == 0);
+
+	char buf[28] = {0};
+	string_get_chars_with_nul(&str, buf);
+	res = strncmp("Monika is cuu\0e and amazing", buf, 27); cr_assert(res == 0);
+
+	/* DETROY */
+	res = string_destroy(&str); cr_assert(res == 0);
+}
+
+Test(string_cmp, nulls)
+{
+	// Because I especially use the function for other tests, I want it to be tested
+	int res = 0;
+	res = string_cmp(NULL, NULL); cr_assert(res == 0);
+
+	// I don't want to create a String instance, I can just cast it as a String*.
+	// The function should detect that there is a NULL and a non-NULL and return early, as there is nothing to compare.
+	res = string_cmp((String*)&res, NULL); cr_assert(res != 0);
+	res = string_cmp(NULL, (String*)&res); cr_assert(res != 0);
+}
+
+Test(string_cmp, equal)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "Foo", 3);
+
+	String str2;
+	string_new(&str2, "Foo", 3);
+
+	res = string_cmp(&str1, &str2); cr_assert(res == 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+}
+
+Test(string_cmp, equal_pointer_and_not)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "Foo", 3);
+
+	String *str2;
+	string_new_ptr(&str2, "Foo", 3);
+
+	res = string_cmp(&str1, str2); cr_assert(res == 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy_ptr(&str2); cr_assert(res == 0);
+	cr_assert(str2 == NULL);
+}
+
+Test(string_cmp, not_equal_first_letter)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "Foo", 3);
+
+	String str2;
+	string_new(&str2, "foo", 3);
+
+	res = string_cmp(&str1, &str2); cr_assert(res != 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+}
+
+Test(string_cmp, not_equal_last_letter)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "Foo", 3);
+
+	String str2;
+	string_new(&str2, "FoO", 3);
+
+	res = string_cmp(&str1, &str2); cr_assert(res != 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+}
+
+Test(string_cmp, not_equal_size)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "Foo", 3);
+
+	String str2;
+	string_new(&str2, "Foo", 4);
+
+	// The res isn't 0 not because it stops when it encounters an '\0' in one but not the second one, but because it also compares the c_chars.
+	res = string_cmp(&str1, &str2); cr_assert(res != 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+}
+
+Test(string_cmp, equal_size_nul)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "Foo", 3);
+
+	String str2;
+	string_new(&str2, "Fo\0", 3);
+
+	res = string_cmp(&str1, &str2); cr_assert(res != 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+}
+
+Test(string_cmp, equal_complex_using_set_char_and_set_chars)
+{
+	int res = 0;
+
+	String str1;
+	string_new(&str1, "just Monika", 12);
+
+	String str2;
+	string_new(&str2, "Just Natsuki", 12);
+
+	/* "just Monika\0" != "Just Natsuki" */
+	res = string_cmp(&str1, &str2); cr_assert(res != 0);
+
+	string_set_char_at(&str1, 0, 'J');
+
+	/* "Just Monika\0" != "Just Natsuki" */
+	res = string_cmp(&str1, &str2); cr_assert(res != 0);
+
+	string_set_chars_at(&str2, 5, "Monika", 7);
+
+	/* "Just Monika\0" == "Just Monika\0" */
+	res = string_cmp(&str1, &str2); cr_assert(res == 0);
+
+	res = string_destroy(&str1); cr_assert(res == 0);
+	res = string_destroy(&str2); cr_assert(res == 0);
+}
