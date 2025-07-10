@@ -20,9 +20,6 @@ int string_new(String *str, char *chars, unsigned int c_chars)
 	char *chars_ptr = chars;
 
 	while(len < c_chars) {
-		if(*chars_ptr == '\0')
-			break;
-
 		++len;
 		++chars_ptr;
 	}
