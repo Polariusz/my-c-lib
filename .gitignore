@@ -4,8 +4,8 @@ array/main.c
 hash_map/a.out
 hash_map/main.c
 
-hasher/a.out
-hasher/main.c
+hash/a.out
+hash/main.c
 
 linked_list/a.out
 linked_list/main.c
