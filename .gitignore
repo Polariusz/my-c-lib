@@ -1,15 +1,18 @@
 array/a.out
 array/main.c
 
+hash_map/a.out
+hash_map/main.c
+
+hasher/a.out
+hasher/main.c
+
 linked_list/a.out
 linked_list/main.c
 
 logger/a.out
 logger/main.c
 logger/log.out
-
-hash_map/a.out
-hash_map/main.c
 
 string/a.out
 string/main.c
