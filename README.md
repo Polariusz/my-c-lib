@@ -24,7 +24,7 @@
 ### In implementation
 
 - Hasher
-  - hasher/hasher.h
+  - hash/hash.h
 
 ### Ideas
 
