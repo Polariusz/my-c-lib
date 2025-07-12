@@ -7,7 +7,8 @@ enum HashType {
 	HASH_INT,
 	HASH_LONG,
 	HASH_LONG_LONG,
-	HASH_CSTRING,
+	HASH_STR,
+	HASH_STRN,
 };
 
 typedef struct HashOpt {
@@ -19,22 +20,25 @@ typedef struct HashOpt {
 
 
 __attribute__ ((nonnull (1)))
-	unsigned int hash_as_char(HashOpt *opt, unsigned char key);
+	unsigned int hash_char(HashOpt *opt, unsigned char key);
 
 __attribute__ ((nonnull (1)))
-	unsigned int hash_as_short(HashOpt *opt, unsigned short key);
+	unsigned int hash_short(HashOpt *opt, unsigned short key);
 
 __attribute__ ((nonnull (1)))
-	unsigned int hash_as_int(HashOpt *opt, unsigned int key);
+	unsigned int hash_int(HashOpt *opt, unsigned int key);
 
 __attribute__ ((nonnull (1)))
-	unsigned int hash_as_long(HashOpt *opt, unsigned long key);
+	unsigned int hash_long(HashOpt *opt, unsigned long key);
 
 __attribute__ ((nonnull (1)))
-	unsigned int hash_as_long_long(HashOpt *opt, unsigned long long key);
+	unsigned int hash_long_long(HashOpt *opt, unsigned long long key);
 
-__attribute__ ((nonnull (1)))
-	unsigned int hash_as_cstring(HashOpt *opt, char* key, unsigned int len);
+__attribute__ ((nonnull (1, 2)))
+	unsigned int hash_str(HashOpt *opt, char* key);
+
+__attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
+	unsigned int hash_strn(HashOpt *opt, unsigned char* key, unsigned int len);
 
 __attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
 	unsigned int hash_value(HashOpt *opt, void *key, unsigned int len);

@@ -4,7 +4,8 @@ enum HashType {
 	HASH_INT,
 	HASH_LONG,
 	HASH_LONG_LONG,
-	HASH_CSTRING,
+	HASH_STR,
+	HASH_STRN,
 };
 
 typedef struct HashOpt {
@@ -13,36 +14,47 @@ typedef struct HashOpt {
 	enum HashType hash_type;
 } HashOpt;
 
-unsigned int hash_as_char(HashOpt *opt, unsigned char key)
+unsigned int hash_char(HashOpt *opt, unsigned char key)
 {
 	return ((opt->initial_value + key) % opt->sub_divider) % opt->divider;
 }
 
-unsigned int hash_as_short(HashOpt *opt, unsigned short key)
+unsigned int hash_short(HashOpt *opt, unsigned short key)
 {
 	return ((opt->initial_value + key) % opt->sub_divider) % opt->divider;
 }
 
-unsigned int hash_as_int(HashOpt *opt, unsigned int key)
+unsigned int hash_int(HashOpt *opt, unsigned int key)
 {
 	return ((opt->initial_value + key) % opt->sub_divider) % opt->divider;
 }
 
-unsigned int hash_as_long(HashOpt *opt, unsigned long key)
+unsigned int hash_long(HashOpt *opt, unsigned long key)
 {
 	return ((opt->initial_value + key) % opt->sub_divider) % opt->divider;
 }
 
-unsigned int hash_as_long_long(HashOpt *opt, unsigned long long key)
+unsigned int hash_long_long(HashOpt *opt, unsigned long long key)
 {
 	return ((opt->initial_value + key) % opt->sub_divider) % opt->divider;
 }
 
-unsigned int hash_as_cstring(HashOpt *opt, char* key, unsigned int len)
+unsigned int hash_str(HashOpt *opt, unsigned char* key)
 {
 	unsigned int res = opt->initial_value;
 
-	while(*key != '\0' && len > 0) {
+	while(*key != '\0') {
+		res = (res + (*key)) % opt->sub_divider;
+		++key;
+	}
+
+	return res % opt->divider;
+}
+
+unsigned int hash_strn(HashOpt *opt, unsigned char* key, unsigned int len)
+{
+	unsigned int res = opt->initial_value;
+	while(len > 0) {
 		res = (res + (*key)) % opt->sub_divider;
 		--len;
 		++key;
@@ -55,17 +67,19 @@ unsigned int hash_value(HashOpt *opt, void *key, unsigned int len)
 {
 	switch(opt->hash_type) {
 		case HASH_CHAR:
-			return hash_as_char(opt, *(unsigned char*)key);
+			return hash_char(opt, *(unsigned char*)key);
 		case HASH_SHORT:
-			return hash_as_short(opt, *(unsigned short*)key);
+			return hash_short(opt, *(unsigned short*)key);
 		case HASH_INT:
-			return hash_as_int(opt, *(unsigned int*)key);
+			return hash_int(opt, *(unsigned int*)key);
 		case HASH_LONG:
-			return hash_as_long(opt, *(unsigned long*)key);
+			return hash_long(opt, *(unsigned long*)key);
 		case HASH_LONG_LONG:
-			return hash_as_long_long(opt, *(unsigned long long*)key);
-		case HASH_CSTRING:
-			return hash_as_cstring(opt, (char*)key, len);
+			return hash_long_long(opt, *(unsigned long long*)key);
+		case HASH_STR:
+			return hash_str(opt, (unsigned char*)key);
+		case HASH_STRN:
+			return hash_strn(opt, (unsigned char*)key, len);
 	}
 
 	return -1;
