@@ -1,6 +1,8 @@
 #ifndef STRING_H_
 #define STRING_H_
 
+#include "../hash/hash.h"
+
 typedef struct String {
 	char *chars;
 	unsigned int c_chars;
@@ -30,6 +32,10 @@ int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int
 /* ---| DELETE |--- */
 /* ---| CUSTOM |--- */
 int string_cmp(String *left, String *right);
+
+__attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
+	unsigned int string_hash(HashOpt *opt, void *key, unsigned int len);
+
 int string_dump(String *str);
 int string_destroy(String *str);
 int string_destroy_ptr(String **str);

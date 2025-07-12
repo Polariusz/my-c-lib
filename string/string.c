@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <unistd.h>
+#include "../hash/hash.h"
 #include "../err_lvl/err_lvl.h"
 
 typedef struct String {
@@ -221,4 +222,20 @@ int string_destroy_ptr(String **str)
 	*str = NULL;
 
 	return NO_ERR;
+}
+
+unsigned int string_hash(HashOpt *opt, void *key, unsigned int len)
+{
+	(void)len;
+	char *chars = ((String*)key)->chars;
+	unsigned int c_chars = ((String*)key)->c_chars;
+
+	unsigned int res = opt->initial_value;
+	while(c_chars > 0) {
+		res = (res + (*chars)) % opt->sub_divider;
+		--c_chars;
+		++chars;
+	}
+
+	return res % opt->divider;
 }
