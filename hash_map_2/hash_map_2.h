@@ -12,14 +12,9 @@ typedef struct HashMap2Pair {
 	unsigned int sizeof_val;
 } HashMap2Pair;
 
-typedef struct HashMap2Bucket {
-	LinkedList bucket;
-} HashMapBucket;
-
 typedef struct HashMap2 {
 	HashOpt opt;
-	HashMapBucket2 *buckets;
-	unsigned int c_buckets;
+	LinkedList *buckets;
 } HashMap2;
 
 /* ---| CREATE |--- */
@@ -33,9 +28,6 @@ __attribute__ ((nonnull (1)))
 __attribute__ ((nonnull (1, 2, 3)))
 	int hm2_get(HashMap2 *hm2, void *key, HashMap2Pair *dest);
 
-__attribute__ ((nonnull (1, 2, 3)))
-	int hm2_get_ptr(HashMap2 *hm2, void *key, HashMap2Pair **dest);
-
 /* ---| UPDATE |--- */
 __attribute__ ((nonnull (1, 2)))
 	int hm2_add(HashMap2 *hm2, HashMapPair *item);
@@ -43,9 +35,6 @@ __attribute__ ((nonnull (1, 2)))
 /* ---| DELETE |--- */
 __attribute__ ((nonnull (1, 2, 3)))
 	int hm2_remove(HashMap2 *hm2, void *key, HashMapPair *dest);
-
-__attribute__ ((nonnull (1, 2, 3)))
-	int hm2_remove_ptr(HashMap2 *hm2, void *key, HashMapPair **dest);
 
 __attribute__ ((nonnull (1)))
 	int hm2_destroy(HashMap2 *hm2);
