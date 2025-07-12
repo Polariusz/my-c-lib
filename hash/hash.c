@@ -6,13 +6,17 @@ enum HashType {
 	HASH_LONG_LONG,
 	HASH_STR,
 	HASH_STRN,
+	HASH_CUSTOM,
 };
 
 typedef struct HashOpt {
-	unsigned int initial_value; unsigned int sub_divider;
+	unsigned int initial_value;
+	unsigned int sub_divider;
 	unsigned int divider;
 	enum HashType hash_type;
+	unsigned int (*hash_custom)(struct HashOpt *opt, void *key, unsigned int len);
 } HashOpt;
+
 
 unsigned int hash_char(HashOpt *opt, unsigned char key)
 {
@@ -80,6 +84,8 @@ unsigned int hash_value(HashOpt *opt, void *key, unsigned int len)
 			return hash_str(opt, (unsigned char*)key);
 		case HASH_STRN:
 			return hash_strn(opt, (unsigned char*)key, len);
+		case HASH_CUSTOM:
+			return opt->hash_custom(opt, key, len);
 	}
 
 	return -1;

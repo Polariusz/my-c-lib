@@ -9,6 +9,7 @@ enum HashType {
 	HASH_LONG_LONG,
 	HASH_STR,
 	HASH_STRN,
+	HASH_CUSTOM,
 };
 
 typedef struct HashOpt {
@@ -16,6 +17,7 @@ typedef struct HashOpt {
 	unsigned int sub_divider;
 	unsigned int divider;
 	enum HashType hash_type;
+	unsigned int (*hash_custom)(struct HashOpt *opt, void *key, unsigned int len);
 } HashOpt;
 
 
