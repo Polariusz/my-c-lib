@@ -35,7 +35,7 @@ __attribute__ ((nonnull (1)))
 	unsigned int hash_long_long(HashOpt *opt, unsigned long long key);
 
 __attribute__ ((nonnull (1, 2)))
-	unsigned int hash_str(HashOpt *opt, char* key);
+	unsigned int hash_str(HashOpt *opt, unsigned char* key);
 
 __attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
 	unsigned int hash_strn(HashOpt *opt, unsigned char* key, unsigned int len);
