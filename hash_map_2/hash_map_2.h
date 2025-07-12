@@ -6,10 +6,10 @@
 
 typedef struct HashMap2Pair {
 	void *key;
-	unsigned int sizeof_key;
+	unsigned int key_len;
 
 	void *val;
-	unsigned int sizeof_val;
+	unsigned int val_len;
 } HashMap2Pair;
 
 typedef struct HashMap2 {
@@ -25,16 +25,16 @@ __attribute__ ((nonnull (1)))
 	int hm2_new_ptr(HashMap2 **hm2, HashOpt opt);
 
 /* ---| READ |--- */
-__attribute__ ((nonnull (1, 2, 3)))
-	int hm2_get(HashMap2 *hm2, void *key, HashMap2Pair *dest);
+__attribute__ ((nonnull (1, 2, 4)))
+	int hm2_get(HashMap2 *hm2, void *key, unsigned int key_len, HashMap2Pair *dest);
 
 /* ---| UPDATE |--- */
 __attribute__ ((nonnull (1, 2)))
-	int hm2_add(HashMap2 *hm2, HashMapPair *item);
+	int hm2_add(HashMap2 *hm2, HashMap2Pair *item);
 
 /* ---| DELETE |--- */
 __attribute__ ((nonnull (1, 2, 3)))
-	int hm2_remove(HashMap2 *hm2, void *key, HashMapPair *dest);
+	int hm2_remove(HashMap2 *hm2, void *key, HashMap2Pair *dest);
 
 __attribute__ ((nonnull (1)))
 	int hm2_destroy(HashMap2 *hm2);
