@@ -11,9 +11,9 @@ typedef struct GenericFunctions {
 
 int gf_new(
 	GenericFunctions *gf,
-	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len);
-	int (*cmp)(void *left, void *right);
-	int (*to_cstring)(void *src, char *dest, unsigned int len);
+	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len),
+	int (*cmp)(void *left, void *right),
+	int (*to_cstring)(void *src, char *dest, unsigned int len)
 ) {
 	if(gf == NULL)
 		return NULL_ERR;
@@ -27,9 +27,9 @@ int gf_new(
 
 int gf_new_ptr (
 	GenericFunctions **gf,
-	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len);
-	int (*cmp)(void *left, void *right);
-	int (*to_cstring)(void *src, char *dest, unsigned int len);
+	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len),
+	int (*cmp)(void *left, void *right),
+	int (*to_cstring)(void *src, char *dest, unsigned int len)
 ) {
 	if(gf == NULL)
 		return NULL_ERR;
@@ -38,7 +38,7 @@ int gf_new_ptr (
 	if(gf == NULL)
 		return MEM_ERR;
 
-	return gf_new(*gf, to_cstring, hash, cmp);
+	return gf_new(*gf, hash, cmp, to_cstring);
 }
 
 int gf_destroy(GenericFunctions *gf)
