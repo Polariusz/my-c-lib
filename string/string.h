@@ -1,9 +1,11 @@
 #ifndef STRING_H_
 #define STRING_H_
 
+#include "../generic_functions/generic_functions.h"
 #include "../hash/hash.h"
 
 typedef struct String {
+	GenericFunctions gf;
 	char *chars;
 	unsigned int c_chars;
 } String;
@@ -30,14 +32,15 @@ __attribute__ ((access (read_only, 3, 4)))
 int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int c_chars);
 
 /* ---| DELETE |--- */
-/* ---| CUSTOM |--- */
-int string_cmp(String *left, String *right);
-
-__attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
-	unsigned int string_hash(HashOpt *opt, void *key, unsigned int len);
-
-int string_dump(String *str);
 int string_destroy(String *str);
 int string_destroy_ptr(String **str);
+
+/* ---| CUSTOM |--- */
+__attribute__ ((nonnull (1, 2)))
+	unsigned int string_hash(HashOpt *opt, void *key, unsigned int len);
+int string_cmp(void *left, void *right);
+int string_to_cstring(void *src, char *dest, unsigned int len);
+
+int string_dump(String *str);
 
 #endif
