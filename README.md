@@ -13,6 +13,8 @@
   - string/string.h
   - Note:
     - I will probably have to rename it
+- Hasher
+  - hash/hash.h
 
 ### Needing tests
 
@@ -23,8 +25,8 @@
 
 ### In implementation
 
-- Hasher
-  - hash/hash.h
+- Hash Table 2
+  - hash\_map\_2/hash\_map\_2.h
 
 ### Ideas
 
