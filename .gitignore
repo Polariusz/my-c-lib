@@ -1,6 +1,9 @@
 array/a.out
 array/main.c
 
+generic_functions/main.c
+generic_functions/a.out
+
 hash_map/a.out
 hash_map/main.c
 
