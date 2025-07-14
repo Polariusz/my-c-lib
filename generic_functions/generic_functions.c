@@ -4,32 +4,32 @@
 #include "../hash/hash.h"
 
 typedef struct GenericFunctions {
-	int (*to_cstring)(void *src, char *dest, unsigned int len);
-	int (*hash)(HashOpt *opt, void *key, unsigned int len);
+	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len);
 	int (*cmp)(void *left, void *right);
+	int (*to_cstring)(void *src, char *dest, unsigned int len);
 } GenericFunctions;
 
 int gf_new(
 	GenericFunctions *gf,
-	int (*to_cstring)(void *src, char *dest, unsigned int len),
-	int (*hash)(HashOpt *opt, void *key, unsigned int len),
-	int (*cmp)(void *left, void *right)
+	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len);
+	int (*cmp)(void *left, void *right);
+	int (*to_cstring)(void *src, char *dest, unsigned int len);
 ) {
 	if(gf == NULL)
 		return NULL_ERR;
 
-	gf->to_cstring = to_cstring;
 	gf->hash = hash;
 	gf->cmp = cmp;
+	gf->to_cstring = to_cstring;
 
 	return NO_ERR;
 }
 
 int gf_new_ptr (
 	GenericFunctions **gf,
-	int (*to_cstring)(void *src, char *dest, unsigned int len),
-	int (*hash)(HashOpt *opt, void *key, unsigned int len),
-	int (*cmp)(void *left, void *right)
+	unsigned int (*hash)(HashOpt *opt, void *key, unsigned int len);
+	int (*cmp)(void *left, void *right);
+	int (*to_cstring)(void *src, char *dest, unsigned int len);
 ) {
 	if(gf == NULL)
 		return NULL_ERR;
@@ -46,9 +46,9 @@ int gf_destroy(GenericFunctions *gf)
 	if(gf == NULL)
 		return NULL_ERR;
 
-	gf->to_cstring = NULL;
 	gf->hash = NULL;
 	gf->cmp = NULL;
+	gf->to_cstring = NULL;
 
 	return NO_ERR;
 }
