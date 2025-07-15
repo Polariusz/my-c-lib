@@ -2,33 +2,39 @@
 #define HASH_MAP_H_
 
 #include "../linked_list/linked_list.h"
+#include "../generic_functions/generic_functions.h"
+#include "../hash/hash.h"
 
-typedef struct HashMapPair {
-	unsigned int key;
-	void *value;
-} HashMapPair;
-
-typedef struct HashMapBucket {
-	LinkedList bucket;
-} HashMapBucket;
+typedef struct KeyVal {
+	void *key;
+	void *val;
+} KeyVal;
 
 typedef struct HashMap {
-	HashMapBucket *buckets;
+	GenericFunctions gf;
+	HashOpt hash_opt;
+	LinkedList *buckets;
 	unsigned int c_buckets;
-	unsigned int size;
-	void(*dump_item)(char *buf, void *item);
 } HashMap;
 
-int hm_new(HashMap *hm, void(*dump_item)(char *buf, void *item));
-int hm_new_ptr(HashMap **hm, void(*dump_item)(char *buf, void *item));
+/* ---| CREATE |--- */
+int hm_new(HashMap *hm, GenericFunctions gf);
+int hm_new_custom(HashMap *hm, GenericFunctions gf, HashOpt hash_opt);
 
-int hm_get(HashMap *hm, unsigned int key, HashMapPair *dest);
-int hm_add(HashMap *hm, HashMapPair *item);
-int hm_remove(HashMap *hm, unsigned int key, HashMapPair *dest);
+int hm_new_ptr(HashMap **hm, GenericFunctions gf);
+int hm_new_custom_ptr(HashMap **hm, GenericFunctions gf, HashOpt hash_opt);
 
-/* ---| CUSTOM |--- */
-int hm_dump(HashMap *hm);
+/* ---| READ |--- */
+int hm_get(HashMap *hm, void *key);
+
+/* ---| UPDATE |--- */
+int hm_add(HashMap *hm, void *key, void *val);
+
+/* ---| DESTROY |--- */
+int hm_delete(HashMap *hm, void *key, void *val);
 int hm_destroy(HashMap *hm);
 int hm_destroy_ptr(HashMap **hm);
+
+/* ---| CUSTOM |--- */
 
 #endif
