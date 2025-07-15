@@ -1,0 +1,8 @@
+enum ERR_LVL {
+	NO_ERR,
+	NULL_ERR,
+	MEM_ERR,
+	ARG_ERR,
+	OUT_OF_BOUNDS_ERR,
+	INT_PANIC,
+};
