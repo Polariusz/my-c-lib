@@ -37,9 +37,9 @@ int string_destroy_ptr(String **str);
 
 /* ---| CUSTOM |--- */
 __attribute__ ((nonnull (1, 2)))
-	unsigned int string_hash(HashOpt *opt, void *key, unsigned int len);
-int string_cmp(void *left, void *right);
-int string_to_cstring(void *src, char *dest, unsigned int len);
+	unsigned int string_hash(HashOpt *opt, String *key, unsigned int len);
+int string_cmp(String *left, String *right);
+int string_to_cstring(String *src, char *dest, unsigned int len);
 
 int string_dump(String *str);
 

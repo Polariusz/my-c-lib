@@ -11,9 +11,9 @@ typedef struct String {
 	unsigned int c_chars;
 } String;
 
-unsigned int string_hash(HashOpt *opt, void *key, unsigned int len);
-int string_cmp(void *left, void *right);
-int string_to_cstring(void *src, char *dest, unsigned int len);
+unsigned int string_hash(HashOpt *opt, String *key, unsigned int len);
+int string_cmp(String *left, String *right);
+int string_to_cstring(String *src, char *dest, unsigned int len);
 
 /* ---| CREATE |--- */
 int string_new(String *str, char *chars, unsigned int c_chars)
@@ -45,9 +45,9 @@ int string_new(String *str, char *chars, unsigned int c_chars)
 
 	str->c_chars = len;
 
-	str->gf.hash = &string_hash;
-	str->gf.cmp = &string_cmp;
-	str->gf.to_cstring = &string_to_cstring;
+	str->gf.hash = (unsigned int(*)(HashOpt*, void*, unsigned int))&string_hash;
+	str->gf.cmp = (int(*)(void*, void*))&string_cmp;
+	str->gf.to_cstring = (int(*)(void*, char*, unsigned int))&string_to_cstring;
 
 	return NO_ERR;
 }
@@ -199,7 +199,7 @@ int string_destroy_ptr(String **str)
 	return NO_ERR;
 }
 
-unsigned int string_hash(HashOpt *opt, void *key, unsigned int len)
+unsigned int string_hash(HashOpt *opt, String *key, unsigned int len)
 {
 	(void)len;
 	char *chars = ((String*)key)->chars;
@@ -215,7 +215,7 @@ unsigned int string_hash(HashOpt *opt, void *key, unsigned int len)
 	return res % opt->divider;
 }
 
-int string_cmp(void *left, void *right)
+int string_cmp(String *left, String *right)
 {
 	// first, check for nulls
 	if(left == NULL && right == NULL)
@@ -228,15 +228,15 @@ int string_cmp(void *left, void *right)
 	// Both aren't null; check for the content
 
 	// c_chars
-	if(((String*)left)->c_chars != ((String*)right)->c_chars) {
-		return ((String*)left)->c_chars - ((String*)right)->c_chars;
+	if(left->c_chars != right->c_chars) {
+		return left->c_chars - right->c_chars;
 	}
 	// Now.. Someone could just modify the c_chars manually to for example 10 times of it's original state for both the arguments. In that case, the for loop below will probably segfault.. or not! If not, it might return unequality or not, depending if the memory past allocated char arrays is zeroed or not.
 
 	// chars
-	for(unsigned int i = 0; i < ((String*)left)->c_chars; i++) {
-		if(((String*)left)->chars[i] != ((String*)right)->chars[i])
-			return ((String*)left)->chars[i] - ((String*)right)->chars[i];
+	for(unsigned int i = 0; i < left->c_chars; i++) {
+		if(left->chars[i] != right->chars[i])
+			return left->chars[i] - right->chars[i];
 	}
 
 	return 0;
@@ -245,7 +245,7 @@ int string_cmp(void *left, void *right)
 /*
  * Why len is ignored? The src, as a String contains c_chars, so the length of the characters is already known.
 */
-int string_to_cstring(void *src, char *dest, unsigned int len)
+int string_to_cstring(String *src, char *dest, unsigned int len)
 {
 	(void)len;
 	if(src == NULL)
@@ -254,10 +254,10 @@ int string_to_cstring(void *src, char *dest, unsigned int len)
 	if(dest == NULL)
 		return NULL_ERR;
 
-	if(((String*)src)->c_chars > len)
+	if(src->c_chars > len)
 		return ARG_ERR;
 
-	return string_get_chars_with_nul(((String*)src), dest);
+	return string_get_chars_with_nul(src, dest);
 }
 
 int string_dump(String *str)
