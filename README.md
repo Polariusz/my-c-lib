@@ -18,15 +18,10 @@
 
 ### Needing tests
 
-- Hash Table
-  - hash\_map/hash\_map.h
-  - Note:
-    - The key is an integer
-
 ### In implementation
 
-- Hash Table 2
-  - hash\_map\_2/hash\_map\_2.h
+- Hash Table
+  - hash\_map/hash\_map.h
 
 ### Ideas
 
