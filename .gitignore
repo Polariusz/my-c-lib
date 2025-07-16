@@ -6,9 +6,9 @@ generic_functions/a.out
 
 hash_map/a.out
 hash_map/main.c
-hash_map/main
-hash_map/example
-hash_map/test
+hash_map/main.out
+hash_map/example.out
+hash_map/test.out
 
 hash/a.out
 hash/main.c
