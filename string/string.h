@@ -1,11 +1,9 @@
 #ifndef STRING_H_
 #define STRING_H_
 
-#include "../generic_functions/generic_functions.h"
 #include "../hash/hash.h"
 
 typedef struct String {
-	GenericFunctions gf;
 	char *chars;
 	unsigned int c_chars;
 } String;

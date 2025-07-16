@@ -1,12 +1,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "../generic_functions/generic_functions.h"
 #include "../hash/hash.h"
 #include "../err_lvl/err_lvl.h"
 
 typedef struct String {
-	GenericFunctions gf;
 	char *chars;
 	unsigned int c_chars;
 } String;
@@ -44,10 +42,6 @@ int string_new(String *str, char *chars, unsigned int c_chars)
 	}
 
 	str->c_chars = len;
-
-	str->gf.hash = (unsigned int(*)(HashOpt*, void*, unsigned int))&string_hash;
-	str->gf.cmp = (int(*)(void*, void*))&string_cmp;
-	str->gf.to_cstring = (int(*)(void*, char*, unsigned int))&string_to_cstring;
 
 	return NO_ERR;
 }
@@ -181,9 +175,6 @@ int string_destroy(String *str)
 
 	free(str->chars);
 	str->c_chars = 0;
-	str->gf.hash = NULL;
-	str->gf.cmp = NULL;
-	str->gf.to_cstring = NULL;
 
 	return NO_ERR;
 }
