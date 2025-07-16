@@ -18,10 +18,10 @@
 
 ### Needing tests
 
-### In implementation
-
 - Hash Table
   - hash\_map/hash\_map.h
+
+### In implementation
 
 ### Ideas
 
