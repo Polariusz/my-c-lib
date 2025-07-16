@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "../linked_list/linked_list.h"
 #include "../generic_functions/generic_functions.h"
