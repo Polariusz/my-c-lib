@@ -18,4 +18,10 @@ __attribute__ ((nonnull (1, 2), access (read_only, 2)))
 __attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
 	unsigned int hash_strn(HashOpt *opt, void *key, unsigned int len);
 
+__attribute__ ((nonnull (1, 2), access (read_only, 2)))
+	unsigned int hash_str_v2(HashOpt *opt, void *key, unsigned int len);
+
+__attribute__ ((nonnull (1, 2), access (read_only, 2, 3)))
+	unsigned int hash_strn_v2(HashOpt *opt, void *key, unsigned int len);
+
 #endif
