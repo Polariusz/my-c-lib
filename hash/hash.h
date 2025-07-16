@@ -7,6 +7,9 @@ typedef struct HashOpt {
 	unsigned int divider;
 } HashOpt;
 
+HashOpt hash_new(unsigned int divider);
+HashOpt hash_build(unsigned int initial_value, unsigned int sub_divider, unsigned int divider);
+
 // The argument len is not used, but is in the function to conform to the argument structure. The hashing will stop if the char will encounter a NUL Terminator.
 __attribute__ ((nonnull (1, 2), access (read_only, 2)))
 	unsigned int hash_str(HashOpt *opt, void *key, unsigned int len);

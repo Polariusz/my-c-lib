@@ -4,6 +4,19 @@ typedef struct HashOpt {
 	unsigned int divider;
 } HashOpt;
 
+HashOpt hash_new(unsigned int d)
+{
+	unsigned int sd = (d * 2 - d / 10);
+	unsigned int iv = sd * 9;
+
+	return (HashOpt) {iv, sd, d};
+}
+
+HashOpt hash_build(unsigned int initial_value, unsigned int sub_divider, unsigned int divider)
+{
+	return (HashOpt) {initial_value, sub_divider, divider};
+}
+
 unsigned int hash_str(HashOpt *opt, void *key, unsigned int len)
 {
 	(void)len;
