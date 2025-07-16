@@ -142,7 +142,7 @@ int hm_add(HashMap *hm, KeyVal *kv)
 	return NO_ERR;
 }
 
-/* ---| DESTROY |--- */
+/* ---| DELETE |--- */
 int hm_delete(HashMap *hm, KeyVal *kv)
 {
 	if(hm == NULL)

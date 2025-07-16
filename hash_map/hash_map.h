@@ -32,7 +32,7 @@ int hm_get(HashMap *hm, KeyVal *kv);
 /* ---| UPDATE |--- */
 int hm_add(HashMap *hm, KeyVal *kv);
 
-/* ---| DESTROY |--- */
+/* ---| DELETE |--- */
 int hm_delete(HashMap *hm, KeyVal *kv);
 int hm_destroy(HashMap *hm);
 int hm_destroy_ptr(HashMap **hm);
