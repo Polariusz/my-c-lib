@@ -9,6 +9,8 @@ typedef struct GenericFunctions {
 	int (*to_cstring)(void *src, char *dest, unsigned int len);
 } GenericFunctions;
 
+GenericFunctions gf_default(void);
+
 __attribute__ ((nonnull (1)))
 	int gf_new(
 		GenericFunctions *gf,

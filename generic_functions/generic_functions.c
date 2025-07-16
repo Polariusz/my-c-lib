@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "../err_lvl/err_lvl.h"
 #include "../hash/hash.h"
@@ -8,6 +9,14 @@ typedef struct GenericFunctions {
 	int (*cmp)(void *left, void *right);
 	int (*to_cstring)(void *src, char *dest, unsigned int len);
 } GenericFunctions;
+
+/* 
+ * Note: to_cstring is NULL.
+*/
+GenericFunctions gf_default(void)
+{
+	return (GenericFunctions){&hash_str, ((int(*)(void*, void*))&strcmp), NULL};
+}
 
 int gf_new(
 	GenericFunctions *gf,
