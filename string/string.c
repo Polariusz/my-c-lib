@@ -160,6 +160,9 @@ int string_set_chars_at(String *str, unsigned int idx, char *chars, unsigned int
 	if(idx >= str->c_chars)
 		return ARG_ERR;
 
+	if(idx + c_chars > str->c_chars)
+		return ARG_ERR;
+
 	for(unsigned int i = idx; i < idx + c_chars; i++) {
 		str->chars[i] = chars[i - idx];
 	}
