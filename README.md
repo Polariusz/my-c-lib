@@ -1,9 +1,5 @@
 ### DONE
 
-- Array List
-  - array\_list/array\_list.h
-- Linked List
-  - linked\_list/linked\_list.h
 - Logger
   - logger/logger.h
   - Note:
@@ -22,6 +18,17 @@
   - hash\_map/hash\_map.h
 
 ### In implementation
+
+- Linked List
+  - linked\_list/linked\_list.h
+  - TODO:
+    - Swap the order of arguments that accept the dest and index.
+    - Replace the dump function pointer with GenericFunctions
+- Array List
+  - array\_list/array\_list.h
+  - TODO:
+    - Swap the order of arguments that accept the dest and index.
+    - Maybe add GenericFunctions??
 
 ### Ideas
 
