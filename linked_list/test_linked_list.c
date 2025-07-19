@@ -220,8 +220,6 @@ Test(remove, simple)
 	res = ll_push(ll, &b); cr_assert(res == 0);
 	res = ll_push(ll, &c); cr_assert(res == 0);
 
-	ll_dump(ll);
-
 	void *yoink = NULL;
 	res = ll_remove(ll, &yoink, 1);
 
