@@ -1,19 +1,22 @@
 #ifndef LINKED_LIST_H_
 #define LINKED_LIST_H_
 
+#include "../generic_functions/generic_functions.h"
+
 typedef struct LinkedListNode {
 	void *item;
 	struct LinkedListNode *next;
 } LinkedListNode;
 
 typedef struct LinkedList {
+	GenericFunctions gf;
 	LinkedListNode *root;
 	unsigned int cnt;
 } LinkedList;
 
 /* ---| CREATE |--- */
-int ll_new(LinkedList *ll);
-int ll_new_ptr(LinkedList **ll);
+int ll_new(LinkedList *ll, GenericFunctions *gf);
+int ll_new_ptr(LinkedList **ll, GenericFunctions *gf);
 
 /* ---| READ |--- */
 int ll_get(LinkedList *ll, unsigned int idx, void **dest);

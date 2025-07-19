@@ -1,6 +1,9 @@
-#include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "../err_lvl/err_lvl.h"
+#include "../generic_functions/generic_functions.h"
 
 typedef struct LinkedListNode {
 	void *item;
@@ -8,38 +11,47 @@ typedef struct LinkedListNode {
 } LinkedListNode;
 
 typedef struct LinkedList {
+	GenericFunctions gf;
 	LinkedListNode *root;
 	unsigned int cnt;
 } LinkedList;
 
 /* ---| CREATE |--- */
-int ll_new(LinkedList* ll)
+int ll_new(LinkedList *ll, GenericFunctions *gf)
 {
 	if(ll == NULL)
 		return NULL_ERR;
 
-	LinkedList new_ll;
-	new_ll.root = NULL;
-	new_ll.cnt = 0;
+	if(gf == NULL) {
+		ll->gf.hash = NULL;
+		ll->gf.cmp = NULL;
+		ll->gf.to_cstring = NULL;
+	} else {
+		ll->gf.hash = gf->hash;
+		ll->gf.cmp = gf->cmp;
+		ll->gf.to_cstring = gf->to_cstring;
+	}
 
-	*ll = new_ll;
+	ll->root = NULL;
+	ll->cnt = 0;
 
 	return NO_ERR;
 }
 
-int ll_new_ptr(LinkedList** ll)
+int ll_new_ptr(LinkedList **ll, GenericFunctions *gf)
 {
 	if(ll == NULL)
 		return NULL_ERR;
 
-	LinkedList *new_ll = malloc(sizeof(LinkedList));
-	if(new_ll == NULL)
+	*ll = malloc(sizeof(LinkedList));
+	if(ll == NULL)
 		return MEM_ERR;
 
-	new_ll->root = NULL;
-	new_ll->cnt = 0;
-
-	*ll = new_ll;
+	int res = ll_new(*ll, gf);
+	if(res != NO_ERR) {
+		free(*ll);
+		return res;
+	}
 
 	return NO_ERR;
 }
@@ -214,9 +226,36 @@ void purge_nodes(LinkedListNode *node)
 	free(node);
 }
 
+int ll_dump(LinkedList *ll)
+{
+	if(ll == NULL)
+		return NULL_ERR;
+
+	if(ll->gf.to_cstring == NULL)
+		return ARG_ERR;
+
+	LinkedListNode *node = ll->root;
+	char buf[64];
+	while(node != NULL) {
+		ll->gf.to_cstring(node->item, buf, 64);
+		write(1, "[", 1);
+		write(1, buf, strlen(buf));
+		write(1, "]", 1);
+		write(1, "->", 2);
+
+		node = node->next;
+	}
+	write(1, "[NULL]\n", 7);
+
+	return NO_ERR;
+}
+
 int ll_destroy(LinkedList *ll)
 {
 	purge_nodes(ll->root);
+	ll->gf.hash = NULL;
+	ll->gf.cmp = NULL;
+	ll->gf.to_cstring = NULL;
 	ll->root = NULL;
 	ll->cnt = 0;
 
