@@ -96,7 +96,7 @@ Test(replace, simple)
 
 	cr_assert_eq(ll->cnt, 1);
 
-	res = ll_replace(ll, &b, 0); cr_assert(res == 0);
+	res = ll_replace(ll, 0, &b); cr_assert(res == 0);
 	cr_assert_eq(ll->cnt, 1);
 
 	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
@@ -170,7 +170,7 @@ Test(crud, complex)
 	res = ll_get(ll, 3, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &b);
 
-	res = ll_replace(ll, &e, 3); cr_assert(res == 0); // 20 -> 0 -> 30 -> 40 -> NULL
+	res = ll_replace(ll, 3, &e); cr_assert(res == 0); // 20 -> 0 -> 30 -> 40 -> NULL
 	res = ll_get(ll, 3, &yoink); cr_assert(res == 0);
 	cr_assert_neq(yoink, &b);
 	cr_assert_eq(yoink, &e);

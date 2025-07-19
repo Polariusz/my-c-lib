@@ -126,7 +126,7 @@ int ll_insert(LinkedList *ll, unsigned int idx, void *item)
 	return NO_ERR;
 }
 
-int ll_replace(LinkedList *ll, void *item, unsigned int idx)
+int ll_replace(LinkedList *ll, unsigned int idx, void *item)
 {
 	if(ll == NULL)
 		return NULL_ERR;

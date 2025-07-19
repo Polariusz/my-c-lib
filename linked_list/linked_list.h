@@ -22,7 +22,7 @@ int ll_get(LinkedList *ll, unsigned int idx, void **dest);
 /* ---| UPDATE |--- */
 int ll_push(LinkedList *ll, void *item);
 int ll_insert(LinkedList *ll, unsigned int idx, void *item);
-int ll_replace(LinkedList *ll, void *item, unsigned int idx);
+int ll_replace(LinkedList *ll, unsigned int idx, void *item);
 
 /* ---| DELETE |--- */
 int ll_pop(LinkedList *ll, void **dest);
