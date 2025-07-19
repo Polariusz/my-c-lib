@@ -1,24 +1,35 @@
-array/a.out
-array/main.c
+# Array List
 
-generic_functions/main.c
+array_list/a.out
+array_list/main.c
+
+# Generic Functions
 generic_functions/a.out
+generic_functions/main.c
 
+# Hash
+hash/a.out
+hash/main.c
+
+# Hash Map
 hash_map/a.out
 hash_map/main.c
 hash_map/main.out
 hash_map/example.out
 hash_map/test.out
 
-hash/a.out
-hash/main.c
-
+# Linked List
 linked_list/a.out
 linked_list/main.c
+linked_list/main.out
+linked_list/example.out
+linked_list/test.out
 
+# Logger
 logger/a.out
 logger/main.c
 logger/log.out
 
+# String
 string/a.out
 string/main.c
