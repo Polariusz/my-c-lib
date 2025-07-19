@@ -10,11 +10,10 @@ typedef struct LinkedListNode {
 typedef struct LinkedList {
 	LinkedListNode *root;
 	unsigned int cnt;
-	void(*dump_item)(char *buf, void* item);
 } LinkedList;
 
 /* ---| CREATE |--- */
-int ll_new(LinkedList* ll, void(*dump_item)(char *buf, void *item))
+int ll_new(LinkedList* ll)
 {
 	if(ll == NULL)
 		return NULL_ERR;
@@ -22,14 +21,13 @@ int ll_new(LinkedList* ll, void(*dump_item)(char *buf, void *item))
 	LinkedList new_ll;
 	new_ll.root = NULL;
 	new_ll.cnt = 0;
-	new_ll.dump_item = dump_item;
 
 	*ll = new_ll;
 
 	return NO_ERR;
 }
 
-int ll_new_ptr(LinkedList** ll, void(*dump_item)(char *buf, void *item))
+int ll_new_ptr(LinkedList** ll)
 {
 	if(ll == NULL)
 		return NULL_ERR;
@@ -40,7 +38,6 @@ int ll_new_ptr(LinkedList** ll, void(*dump_item)(char *buf, void *item))
 
 	new_ll->root = NULL;
 	new_ll->cnt = 0;
-	new_ll->dump_item = dump_item;
 
 	*ll = new_ll;
 
@@ -204,27 +201,6 @@ int ll_remove(LinkedList *ll, unsigned int idx, void **dest)
 	return NO_ERR;
 }
 
-/* ---| CUSTOM |--- */
-int ll_dump(LinkedList *ll)
-{
-	if(ll == NULL)
-		return NULL_ERR;
-
-	if(ll->dump_item == NULL)
-		return ARG_ERR;
-
-	LinkedListNode *node = ll->root;
-	while(node != NULL) {
-		char buf[8] = {0};
-		ll->dump_item(buf, node->item);
-		printf("%s->", buf);
-		node = node->next;
-	}
-	printf("NULL\n");
-
-	return NO_ERR;
-}
-
 void purge_nodes(LinkedListNode *node)
 {
 	if(node == NULL)
@@ -243,7 +219,6 @@ int ll_destroy(LinkedList *ll)
 	purge_nodes(ll->root);
 	ll->root = NULL;
 	ll->cnt = 0;
-	ll->dump_item = NULL;
 
 	return NO_ERR;
 }

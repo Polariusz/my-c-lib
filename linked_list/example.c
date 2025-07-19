@@ -6,7 +6,7 @@ int main(void)
 {
 	// Declare and initialise with a constructor:
 	LinkedList ll;
-	ll_new(&ll, NULL);
+	ll_new(&ll);
 
 	// To add an item, you can use the ll_push or ll_insert functions:
 	ll_insert(&ll, 0, "First added item");
