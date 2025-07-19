@@ -28,9 +28,9 @@ int main(void)
 
 	// To remove an item, you can use ll_pop function that removes the head, or the ll_remove function that accepts the intex:
 	void *yoink2 = NULL;
-	ll_remove(&ll, 1, &yoink2);
+	ll_delete(&ll, 1, &yoink2);
 	ll_pop(&ll, &yoink2);
-	// You can ignore the retrieval of the item pointer by passing a NULL into it: ll_pop(&ll, NULL); or ll_remove(&ll, INDEX, NULL);
+	// You can ignore the retrieval of the item pointer by passing a NULL into it: ll_pop(&ll, NULL); or ll_delete(&ll, INDEX, NULL);
 
 	// You can get the current count of the items, or nodes in the LinkedList. There is a cnt variable in the LinkedList struct.
 

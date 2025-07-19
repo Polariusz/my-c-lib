@@ -181,7 +181,7 @@ int ll_pop(LinkedList *ll, void **dest)
 	return NO_ERR;
 }
 
-int ll_remove(LinkedList *ll, unsigned int idx, void **dest)
+int ll_delete(LinkedList *ll, unsigned int idx, void **dest)
 {
 	if(ll == NULL)
 		return NULL_ERR;
