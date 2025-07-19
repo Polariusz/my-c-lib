@@ -16,11 +16,11 @@ int main(void)
 
 	// You can get the item with the ll_get function:
 	void *yoink0 = NULL;
-	ll_get(&ll, &yoink0, 0);
+	ll_get(&ll, 0, &yoink0);
 	// yoink0 points to the "Second added item"
 
 	void *yoink1 = NULL;
-	ll_get(&ll, &yoink1, 1);
+	ll_get(&ll, 1, &yoink1);
 	// yoink1 points to the variable 'a' address.
 	printf("%d\n", *(int*)yoink1);
 

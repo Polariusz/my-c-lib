@@ -17,7 +17,7 @@ int ll_new(LinkedList *ll, void(*dump_item)(char *buf, void *item));
 int ll_new_ptr(LinkedList **ll, void(*dump_item)(char *buf, void *item));
 
 /* ---| READ |--- */
-int ll_get(LinkedList *ll, void **dest, unsigned int idx);
+int ll_get(LinkedList *ll, unsigned int idx, void **dest);
 
 /* ---| UPDATE |--- */
 int ll_push(LinkedList *ll, void *item);

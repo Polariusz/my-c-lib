@@ -58,7 +58,7 @@ Test(get, simple)
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
 	void *yoink = NULL;
-	res = ll_get(ll, &yoink, 0); cr_assert(res == 0);
+	res = ll_get(ll, 0, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &a);
 
 	cr_assert_eq(ll->cnt, 1);
@@ -158,20 +158,20 @@ Test(crud, complex)
 	res = ll_insert(ll, &d, 2); cr_assert(res == 0); // 20 -> 0 -> 30 -> 10 -> NULL
 
 	void *yoink = NULL;
-	res = ll_get(ll, &yoink, 0); cr_assert(res == 0);
+	res = ll_get(ll, 0, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &c);
 
-	res = ll_get(ll, &yoink, 1); cr_assert(res == 0);
+	res = ll_get(ll, 1, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &a);
 
-	res = ll_get(ll, &yoink, 2); cr_assert(res == 0);
+	res = ll_get(ll, 2, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &d);
 
-	res = ll_get(ll, &yoink, 3); cr_assert(res == 0);
+	res = ll_get(ll, 3, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &b);
 
 	res = ll_replace(ll, &e, 3); cr_assert(res == 0); // 20 -> 0 -> 30 -> 40 -> NULL
-	res = ll_get(ll, &yoink, 3); cr_assert(res == 0);
+	res = ll_get(ll, 3, &yoink); cr_assert(res == 0);
 	cr_assert_neq(yoink, &b);
 	cr_assert_eq(yoink, &e);
 
@@ -195,7 +195,7 @@ Test(delete, curious)
 	res = ll_push(ll, &c); cr_assert(res == 0);
 
 	void *yoink = NULL;
-	res = ll_get(ll, &yoink, 1); cr_assert(res == 0);
+	res = ll_get(ll, 1, &yoink); cr_assert(res == 0);
 	cr_assert_eq(yoink, &b);
 
 	res = ll_delete(ll, 1); cr_assert(res == 0);

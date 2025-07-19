@@ -48,7 +48,7 @@ int ll_new_ptr(LinkedList** ll, void(*dump_item)(char *buf, void *item))
 }
 
 /* ---| READ |--- */
-int ll_get(LinkedList *ll, void **dest, unsigned int idx)
+int ll_get(LinkedList *ll, unsigned int idx, void **dest)
 {
 	if(ll == NULL)
 		return NULL_ERR;
