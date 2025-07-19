@@ -75,7 +75,7 @@ Test(insert, simple)
 	int a = 0;
 
 	res = ll_new_ptr(&ll, &dump_item); cr_assert(res == 0);
-	res = ll_insert(ll, &a, 0); cr_assert(res == 0);
+	res = ll_insert(ll, 0, &a); cr_assert(res == 0);
 
 	cr_assert_eq(ll->cnt, 1);
 
@@ -153,9 +153,9 @@ Test(crud, complex)
 
 	res = ll_new_ptr(&ll, &dump_item); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);      // 0 -> NULL
-	res = ll_insert(ll, &b, 1); cr_assert(res == 0); // 0 -> 10 -> NULL
+	res = ll_insert(ll, 1, &b); cr_assert(res == 0); // 0 -> 10 -> NULL
 	res = ll_push(ll, &c); cr_assert(res == 0);      // 20 -> 0 -> 10 -> NULL
-	res = ll_insert(ll, &d, 2); cr_assert(res == 0); // 20 -> 0 -> 30 -> 10 -> NULL
+	res = ll_insert(ll, 2, &d); cr_assert(res == 0); // 20 -> 0 -> 30 -> 10 -> NULL
 
 	void *yoink = NULL;
 	res = ll_get(ll, 0, &yoink); cr_assert(res == 0);

@@ -92,7 +92,7 @@ int ll_push(LinkedList *ll, void *item)
 	return NO_ERR;
 }
 
-int ll_insert(LinkedList *ll, void *item, unsigned int idx)
+int ll_insert(LinkedList *ll, unsigned int idx, void *item)
 {
 	if(ll == NULL)
 		return NULL_ERR;

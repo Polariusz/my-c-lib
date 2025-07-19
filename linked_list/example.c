@@ -9,10 +9,10 @@ int main(void)
 	ll_new(&ll, NULL);
 
 	// To add an item, you can use the ll_push or ll_insert functions:
-	ll_insert(&ll, "First added item", 0);
+	ll_insert(&ll, 0, "First added item");
 	ll_push(&ll, "Second added item");
 	int a = 10;
-	ll_insert(&ll, &a, 1);
+	ll_insert(&ll, 1, &a);
 
 	// You can get the item with the ll_get function:
 	void *yoink0 = NULL;
