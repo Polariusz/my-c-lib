@@ -7,7 +7,7 @@ Test(init_destroy, simple)
 	int res = 0;
 	LinkedList ll;
 
-	res = ll_new(&ll); cr_assert(res == 0);
+	res = ll_new(&ll, NULL); cr_assert(res == 0);
 
 	res = ll_destroy(&ll); cr_assert(res == 0);
 	cr_assert(ll.root == NULL);
@@ -19,7 +19,7 @@ Test(init_ptr_destroy, simple)
 	int res = 0;
 	LinkedList *ll;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 
 	res = ll_destroy_ptr(&ll); cr_assert(res == 0);
 	cr_assert(NULL == ll);
@@ -31,7 +31,7 @@ Test(push, simple)
 	LinkedList *ll;
 	int a = 0;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
 	cr_assert_eq(ll->cnt, 1);
@@ -47,7 +47,7 @@ Test(get, simple)
 
 	int a = 0;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
 	void *yoink = NULL;
@@ -67,7 +67,7 @@ Test(insert, simple)
 
 	int a = 0;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_insert(ll, 0, &a); cr_assert(res == 0);
 
 	cr_assert_eq(ll->cnt, 1);
@@ -84,7 +84,7 @@ Test(replace, simple)
 	int a = 0;
 	int b = 0;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
 	cr_assert_eq(ll->cnt, 1);
@@ -103,7 +103,7 @@ Test(pop, simple)
 
 	int a = 0;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
 	void *yoink = NULL;
@@ -123,7 +123,7 @@ Test(delete, simple_no_dest)
 
 	int a = 0;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);
 
 	res = ll_delete(ll, 0, NULL); cr_assert(res == 0);
@@ -144,7 +144,7 @@ Test(crud, complex)
 	int d = 30;
 	int e = 40;
 
-	res = ll_new_ptr(&ll); cr_assert(res == 0);
+	res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	res = ll_push(ll, &a); cr_assert(res == 0);      // 0 -> NULL
 	res = ll_insert(ll, 1, &b); cr_assert(res == 0); // 0 -> 10 -> NULL
 	res = ll_push(ll, &c); cr_assert(res == 0);      // 20 -> 0 -> 10 -> NULL
@@ -178,7 +178,7 @@ Test(crud, complex)
 Test(delete, curious)
 {
 	int res = 0;
-	LinkedList *ll; res = ll_new_ptr(&ll); cr_assert(res == 0);
+	LinkedList *ll; res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	int a = 0;
 	int b = 10;
 	int c = 20;
@@ -204,7 +204,7 @@ Test(delete, curious)
 Test(delete, simple)
 {
 	int res = 0;
-	LinkedList *ll; res = ll_new_ptr(&ll); cr_assert(res == 0);
+	LinkedList *ll; res = ll_new_ptr(&ll, NULL); cr_assert(res == 0);
 	int a = 0;
 	int b = 10;
 	int c = 20;
