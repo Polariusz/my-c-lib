@@ -20,7 +20,7 @@ int al_get(ArrayList *al, void **dest, unsigned int idx);
 int al_add_suffix(ArrayList *al, void *item);
 int al_add_prefix(ArrayList *al, void *item);
 int al_insert(ArrayList *al, unsigned int idx, void *item);
-int al_replace(ArrayList *al, void *item, unsigned int index);
+int al_replace(ArrayList *al, unsigned int index, void *item);
 
 /* ---| DELETE |--- */
 int al_delete(ArrayList *al, void **dest, unsigned int idx);

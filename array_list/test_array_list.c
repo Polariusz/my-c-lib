@@ -163,8 +163,8 @@ Test(al_update, complex)
 	res = al_add_suffix(array, &arr[17]); cr_expect(res =! 0);
 	res = al_add_suffix(array, &arr[18]); cr_expect(res =! 0);
 
-	res = al_replace(array, &arr[19], 10); cr_expect(res =! 0);
-	res = al_replace(array, &arr[20], 6); cr_expect(res =! 0);
+	res = al_replace(array, 10, &arr[19]); cr_expect(res =! 0);
+	res = al_replace(array, 6, &arr[20]); cr_expect(res =! 0);
 
 	al_get(array, &yoinker, 0); cr_assert_eq(yoinker, &arr[16]);
 	al_get(array, &yoinker, 1); cr_assert_eq(yoinker, &arr[15]);

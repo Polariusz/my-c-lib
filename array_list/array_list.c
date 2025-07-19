@@ -202,7 +202,7 @@ int al_insert(ArrayList *al, unsigned int idx, void *item)
 	return NO_ERR;
 }
 
-int al_replace(ArrayList *al, void *item, unsigned int idx)
+int al_replace(ArrayList *al, unsigned int idx, void *item)
 {
 	if(al == NULL)
 		return NULL_ERR;
