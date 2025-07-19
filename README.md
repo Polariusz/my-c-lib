@@ -1,5 +1,7 @@
 ### DONE
 
+- Linked List
+  - linked\_list/linked\_list.h
 - Logger
   - logger/logger.h
   - Note:
@@ -19,10 +21,6 @@
 
 ### In implementation
 
-- Linked List
-  - linked\_list/linked\_list.h
-  - TODO:
-    - Replace the dump function pointer with GenericFunctions
 - Array List
   - array\_list/array\_list.h
   - TODO:
