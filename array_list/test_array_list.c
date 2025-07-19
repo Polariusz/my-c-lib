@@ -96,19 +96,19 @@ Test(al_insert, complex)
 	res = al_add_suffix(array, &arr[8]); cr_expect(res =! 0);
 	res = al_add_suffix(array, &arr[9]); cr_expect(res =! 0);
 
-	res = al_insert(array, &arr[10], 0); cr_expect(res =! 0);
+	res = al_insert(array, 0, &arr[10]); cr_expect(res =! 0);
 	res = al_get(array, &yoinker, 0); cr_expect(res == 0);
 	cr_assert_eq(yoinker, &arr[10]);
 
-	res = al_insert(array, &arr[11], 3); cr_expect(res =! 0);
+	res = al_insert(array, 3, &arr[11]); cr_expect(res =! 0);
 	res = al_get(array, &yoinker, 3); cr_expect(res == 0);
 	cr_assert_eq(yoinker, &arr[11]);
 
-	res = al_insert(array, &arr[12], 9); cr_expect(res =! 0);
+	res = al_insert(array, 9, &arr[12]); cr_expect(res =! 0);
 	res = al_get(array, &yoinker, 9); cr_expect(res == 0);
 	cr_assert_eq(yoinker, &arr[12]);
 
-	res = al_insert(array, &arr[13], 9); cr_expect(res =! 0);
+	res = al_insert(array, 9, &arr[13]); cr_expect(res =! 0);
 	res = al_get(array, &yoinker, 9); cr_expect(res == 0);
 	cr_assert_eq(yoinker, &arr[13]);
 
@@ -151,10 +151,10 @@ Test(al_update, complex)
 	res = al_add_suffix(array, &arr[8]); cr_expect(res =! 0);
 	res = al_add_suffix(array, &arr[9]); cr_expect(res =! 0);
 
-	res = al_insert(array, &arr[10], 0); cr_expect(res =! 0);
-	res = al_insert(array, &arr[11], 3); cr_expect(res =! 0);
-	res = al_insert(array, &arr[12], 9); cr_expect(res =! 0);
-	res = al_insert(array, &arr[13], 9); cr_expect(res =! 0);
+	res = al_insert(array, 0, &arr[10]); cr_expect(res =! 0);
+	res = al_insert(array, 3, &arr[11]); cr_expect(res =! 0);
+	res = al_insert(array, 9, &arr[12]); cr_expect(res =! 0);
+	res = al_insert(array, 9, &arr[13]); cr_expect(res =! 0);
 
 	res = al_add_prefix(array, &arr[14]); cr_expect(res =! 0);
 	res = al_add_prefix(array, &arr[15]); cr_expect(res =! 0);
