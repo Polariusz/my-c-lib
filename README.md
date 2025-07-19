@@ -22,7 +22,6 @@
 - Linked List
   - linked\_list/linked\_list.h
   - TODO:
-    - Swap the order of arguments that accept the dest and index.
     - Replace the dump function pointer with GenericFunctions
 - Array List
   - array\_list/array\_list.h
