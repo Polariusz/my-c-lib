@@ -23,7 +23,7 @@ int al_insert(ArrayList *al, unsigned int idx, void *item);
 int al_replace(ArrayList *al, unsigned int index, void *item);
 
 /* ---| DELETE |--- */
-int al_delete(ArrayList *al, void **dest, unsigned int idx);
+int al_delete(ArrayList *al, unsigned int idx, void **dest);
 
 /* ---| CUSTOM |--- */
 int al_dump(ArrayList *al, void(*dump_item)(void* item));
