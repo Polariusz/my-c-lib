@@ -23,9 +23,6 @@
 
 - Array List
   - array\_list/array\_list.h
-  - TODO:
-    - Swap the order of arguments that accept the dest and index.
-    - Maybe add GenericFunctions??
 
 ### Ideas
 
