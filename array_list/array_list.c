@@ -86,7 +86,7 @@ int al_build_ptr(ArrayList **al, unsigned int size)
 }
 
 /* ---| READ |--- */
-int al_get(ArrayList *al, void **dest, unsigned int idx)
+int al_get(ArrayList *al, unsigned int idx, void **dest)
 {
 	if(dest == NULL)
 		return NULL_ERR;
@@ -202,7 +202,7 @@ int al_insert(ArrayList *al, unsigned int idx, void *item)
 	return NO_ERR;
 }
 
-int al_replace(ArrayList *al, void *item, unsigned int idx)
+int al_replace(ArrayList *al, unsigned int idx, void *item)
 {
 	if(al == NULL)
 		return NULL_ERR;
@@ -219,7 +219,7 @@ int al_replace(ArrayList *al, void *item, unsigned int idx)
 }
 
 /* ---| DELETE |--- */
-int al_delete(ArrayList *al, void **dest, unsigned int idx)
+int al_delete(ArrayList *al, unsigned int idx, void **dest)
 {
 	if(al == NULL)
 		return NULL_ERR;

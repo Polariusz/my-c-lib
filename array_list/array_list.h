@@ -14,7 +14,7 @@ int al_build(ArrayList *al, unsigned int size);
 int al_build_ptr(ArrayList **al, unsigned int size);
 
 /* ---| READ |--- */
-int al_get(ArrayList *al, void **dest, unsigned int idx);
+int al_get(ArrayList *al, unsigned int idx, void **dest);
 
 /* ---| UPDATE |--- */
 int al_add_suffix(ArrayList *al, void *item);
