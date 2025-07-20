@@ -1,9 +1,8 @@
-#include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "../err_lvl/err_lvl.h"
-#include "../generic_functions/generic_functions.h"
 
 typedef struct LinkedListNode {
 	void *item;
@@ -11,26 +10,15 @@ typedef struct LinkedListNode {
 } LinkedListNode;
 
 typedef struct LinkedList {
-	GenericFunctions gf;
 	LinkedListNode *root;
 	unsigned int cnt;
 } LinkedList;
 
 /* ---| CREATE |--- */
-int ll_new(LinkedList *ll, GenericFunctions *gf)
+int ll_new(LinkedList *ll)
 {
 	if(ll == NULL)
 		return NULL_ERR;
-
-	if(gf == NULL) {
-		ll->gf.hash = NULL;
-		ll->gf.cmp = NULL;
-		ll->gf.to_cstring = NULL;
-	} else {
-		ll->gf.hash = gf->hash;
-		ll->gf.cmp = gf->cmp;
-		ll->gf.to_cstring = gf->to_cstring;
-	}
 
 	ll->root = NULL;
 	ll->cnt = 0;
@@ -38,7 +26,7 @@ int ll_new(LinkedList *ll, GenericFunctions *gf)
 	return NO_ERR;
 }
 
-int ll_new_ptr(LinkedList **ll, GenericFunctions *gf)
+int ll_new_ptr(LinkedList **ll)
 {
 	if(ll == NULL)
 		return NULL_ERR;
@@ -47,7 +35,7 @@ int ll_new_ptr(LinkedList **ll, GenericFunctions *gf)
 	if(ll == NULL)
 		return MEM_ERR;
 
-	int res = ll_new(*ll, gf);
+	int res = ll_new(*ll);
 	if(res != NO_ERR) {
 		free(*ll);
 		return res;
@@ -226,26 +214,23 @@ void purge_nodes(LinkedListNode *node)
 	free(node);
 }
 
-int ll_dump(LinkedList *ll)
+int ll_dump(LinkedList *ll, void(*dump_item)(void *src))
 {
 	if(ll == NULL)
 		return NULL_ERR;
 
-	if(ll->gf.to_cstring == NULL)
-		return ARG_ERR;
-
 	LinkedListNode *node = ll->root;
-	char buf[64];
 	while(node != NULL) {
-		ll->gf.to_cstring(node->item, buf, 64);
-		write(1, "[", 1);
-		write(1, buf, strlen(buf));
-		write(1, "]", 1);
-		write(1, "->", 2);
+		printf("[");
+		if(dump_item == NULL)
+			printf("%p", node->item);
+		else
+			dump_item(node->item);
+		printf("]->");
 
 		node = node->next;
 	}
-	write(1, "[NULL]\n", 7);
+	printf("[NULL]\n");
 
 	return NO_ERR;
 }
@@ -253,9 +238,6 @@ int ll_dump(LinkedList *ll)
 int ll_destroy(LinkedList *ll)
 {
 	purge_nodes(ll->root);
-	ll->gf.hash = NULL;
-	ll->gf.cmp = NULL;
-	ll->gf.to_cstring = NULL;
 	ll->root = NULL;
 	ll->cnt = 0;
 

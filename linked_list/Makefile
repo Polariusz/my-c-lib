@@ -1,7 +1,7 @@
 CC		= gcc
 CFLAGS	= -Wall -Wextra
 CLIBS	= -lcriterion
-CPATHS	= ./linked_list.c ../hash/hash.c ../generic_functions/generic_functions.c ../err_lvl/err_lvl.c
+CPATHS	= ./linked_list.c ../hash/hash.c ../err_lvl/err_lvl.c
 TSRC	= ./test_linked_list.c
 TOUT	= test.out
 MSRC	= ./main.c
