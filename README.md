@@ -1,5 +1,7 @@
 ### DONE
 
+- Array List
+  - array\_list/array\_list.h
 - Linked List
   - linked\_list/linked\_list.h
 - Logger
@@ -20,9 +22,6 @@
   - hash\_map/hash\_map.h
 
 ### In implementation
-
-- Array List
-  - array\_list/array\_list.h
 
 ### Ideas
 
