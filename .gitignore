@@ -2,6 +2,9 @@
 
 array_list/a.out
 array_list/main.c
+array_list/main.out
+array_list/example.out
+array_list/test.out
 
 # Generic Functions
 generic_functions/a.out
