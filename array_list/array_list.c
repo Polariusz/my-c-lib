@@ -262,10 +262,14 @@ int al_dump(ArrayList *al, void(*dump_item)(void* item))
 	printf("CNT  : %d\n", al->cnt);
 	printf("SIZE : %d\n", al->size);
 	for(unsigned int i = 0; i < al->cnt; i++) {
-		printf("%p: ", al->items[i]);
-		dump_item(al->items[i]);
-		printf("\n");
+		printf("%u:[", i);
+		if(dump_item == NULL)
+			printf("%p", al->items[i]);
+		else
+			dump_item(al->items[i]);
+		printf("], ");
 	}
+	printf("\n");
 
 	return NO_ERR;
 }
