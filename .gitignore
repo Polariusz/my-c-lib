@@ -6,6 +6,13 @@ array_list/main.out
 array_list/example.out
 array_list/test.out
 
+# Binary Tree
+binary_tree/a.out
+binary_tree/main.c
+binary_tree/main.out
+binary_tree/example.out
+binary_tree/test.out
+
 # Generic Functions
 generic_functions/a.out
 generic_functions/main.c

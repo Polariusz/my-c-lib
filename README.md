@@ -23,10 +23,11 @@
 
 ### In implementation
 
-### Ideas
-
 - Binary Tree
   - binary\_tree/binary\_tree.h
+
+### Ideas
+
 - Arena
   - arena.h
   - maybe?
