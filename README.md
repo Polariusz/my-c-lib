@@ -23,8 +23,8 @@
 
 ### In implementation
 
-- Binary Tree
-  - binary\_tree/binary\_tree.h
+- Binary Search Tree
+  - binary\_search\_tree/binary\_search\_tree.h
 
 ### Ideas
 
