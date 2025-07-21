@@ -8,13 +8,14 @@ typedef struct BinaryTreeNode {
 } BinaryTreeNode;
 
 typedef struct BinaryTree {
-	BinaryTreeNote *root;
+	BinaryTreeNode *root;
 	unsigned int cnt;
+	int (*cmp)(void *left, void *right);
 } BinaryTree;
 
 /* ---| CONSTRUCTOR |--- */
-int bt_new(BinaryTree *bt);
-int bt_new_ptr(BinaryTree **bt);
+int bt_new(BinaryTree *bt, int (*cmp)(void *left, void *right));
+int bt_new_ptr(BinaryTree **bt, int (*cmp)(void *left, void *right));
 
 /* ---| DESTRUCTOR |--- */
 int bt_destroy(BinaryTree *bt);
