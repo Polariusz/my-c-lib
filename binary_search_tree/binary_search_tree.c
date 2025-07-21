@@ -133,7 +133,30 @@ int bst_add(BinarySearchTree *bst, void *item)
 }
 
 /* ---| READ |--- */
-int bst_search(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest);
+int bst_search_r(BinarySearchTreeNode **bstn, void *src, BinarySearchTreeNode **dest, int (*cmp)(void *left, void *right))
+{
+	if(bstn == NULL)
+		return ARG_ERR;
+
+	if(*bstn == NULL)
+		return NULL_ERR;
+
+	int res = cmp((*bstn)->item, src);
+
+	if(res > 0) {
+		return bst_search_r(&(*bstn)->left, src, dest, cmp);
+	} else if(res < 0) {
+		return bst_search_r(&(*bstn)->right, src, dest, cmp);
+	} else {
+		*dest = *bstn;
+		return NO_ERR;
+	}
+}
+
+int bst_search(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest)
+{
+	return bst_search_r(&bst->root, src, dest, bst->cmp);
+}
 
 /* ---| DELETE |--- */
 int bst_delete_node(BinarySearchTree *bst, void *item);
