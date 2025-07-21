@@ -14,24 +14,24 @@ typedef struct BinarySearchTree {
 } BinarySearchTree;
 
 /* ---| CONSTRUCTOR |--- */
-int bt_new(BinarySearchTree *bt, int (*cmp)(void *left, void *right));
-int bt_new_ptr(BinarySearchTree **bt, int (*cmp)(void *left, void *right));
+int bst_new(BinarySearchTree *bst, int (*cmp)(void *left, void *right));
+int bst_new_ptr(BinarySearchTree **bst, int (*cmp)(void *left, void *right));
 
 /* ---| DESTRUCTOR |--- */
-int bt_destroy(BinarySearchTree *bt);
-int bt_destroy_ptr(BinarySearchTree **bt);
+int bst_destroy(BinarySearchTree *bst);
+int bst_destroy_ptr(BinarySearchTree **bst);
 
 /* ---| CUSTOM |--- */
-int bt_dump(BinarySearchTree *bt, void(*dump_item)(void *src));
+int bst_dump(BinarySearchTree *bst, void(*dump_item)(void *src));
 
 /* ---| CREATE |--- */
-int bt_add(BinarySearchTree *bt, void *item);
+int bst_add(BinarySearchTree *bst, void *item);
 
 /* ---| READ |--- */
-int bt_search(BinarySearchTree *bt, void *src, BinarySearchTreeNode **dest);
+int bst_search(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest);
 
 /* ---| DELETE |--- */
-int bt_delete_node(BinarySearchTree *bt, void *item);
-int bt_delete_nodes(BinarySearchTree *bt, void *item);
+int bst_delete_node(BinarySearchTree *bst, void *item);
+int bst_delete_nodes(BinarySearchTree *bst, void *item);
 
 #endif
