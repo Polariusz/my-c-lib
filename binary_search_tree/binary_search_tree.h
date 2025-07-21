@@ -1,41 +1,37 @@
-#ifndef BINARY_TREE_H
-#define BINARY_TREE_H
+#ifndef BINARY_SEARCH_TREE_H
+#define BINARY_SEARCH_TREE_H
 
-typedef struct BinaryTreeNode {
+typedef struct BinarySearchTreeNode {
 	void *item;
-	struct BinaryTreeNode *left;
-	struct BinaryTreeNode *right;
-} BinaryTreeNode;
+	struct BinarySearchTreeNode *left;
+	struct BinarySearchTreeNode *right;
+} BinarySearchTreeNode;
 
-typedef struct BinaryTree {
-	BinaryTreeNode *root;
+typedef struct BinarySearchTree {
+	BinarySearchTreeNode *root;
 	unsigned int cnt;
 	int (*cmp)(void *left, void *right);
-} BinaryTree;
+} BinarySearchTree;
 
 /* ---| CONSTRUCTOR |--- */
-int bt_new(BinaryTree *bt, int (*cmp)(void *left, void *right));
-int bt_new_ptr(BinaryTree **bt, int (*cmp)(void *left, void *right));
+int bt_new(BinarySearchTree *bt, int (*cmp)(void *left, void *right));
+int bt_new_ptr(BinarySearchTree **bt, int (*cmp)(void *left, void *right));
 
 /* ---| DESTRUCTOR |--- */
-int bt_destroy(BinaryTree *bt);
-int bt_destroy_ptr(BinaryTree **bt);
+int bt_destroy(BinarySearchTree *bt);
+int bt_destroy_ptr(BinarySearchTree **bt);
 
 /* ---| CUSTOM |--- */
-int bt_dump(BinaryTree *bt, void(*dump_item)(void *src));
+int bt_dump(BinarySearchTree *bt, void(*dump_item)(void *src));
 
 /* ---| CREATE |--- */
-int bt_add(BinaryTree *bt, void *item);
+int bt_add(BinarySearchTree *bt, void *item);
 
 /* ---| READ |--- */
-int bt_get(BinaryTree *bt, unsigned int idx, void **dest);
-
-/* ---| UPDATE |--- */
-int bt_swap_nodes(BinaryTree *bt, unsigned int idx);
-int bt_replace(BinaryTree *bt, unsigned int idx, void *item);
+int bt_search(BinarySearchTree *bt, void *src, BinarySearchTreeNode **dest);
 
 /* ---| DELETE |--- */
-int bt_delete_node(BinaryTree *bt, void *item);
-int bt_delete_nodes(BinaryTree *bt, void *item);
+int bt_delete_node(BinarySearchTree *bt, void *item);
+int bt_delete_nodes(BinarySearchTree *bt, void *item);
 
 #endif

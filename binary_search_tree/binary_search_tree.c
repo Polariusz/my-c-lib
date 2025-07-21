@@ -3,20 +3,20 @@
 
 #include "../err_lvl/err_lvl.h"
 
-typedef struct BinaryTreeNode {
+typedef struct BinarySearchTreeNode {
 	void *item;
-	struct BinaryTreeNode *left;
-	struct BinaryTreeNode *right;
-} BinaryTreeNode;
+	struct BinarySearchTreeNode *left;
+	struct BinarySearchTreeNode *right;
+} BinarySearchTreeNode;
 
-typedef struct BinaryTree {
-	BinaryTreeNode *root;
+typedef struct BinarySearchTree {
+	BinarySearchTreeNode *root;
 	unsigned int cnt;
 	int (*cmp)(void *left, void *right);
-} BinaryTree;
+} BinarySearchTree;
 
 /* ---| CONSTRUCTOR |--- */
-int bt_new(BinaryTree *bt, int (*cmp)(void *left, void *right))
+int bt_new(BinarySearchTree *bt, int (*cmp)(void *left, void *right))
 {
 	if(bt == NULL)
 		return NULL_ERR;
@@ -28,7 +28,7 @@ int bt_new(BinaryTree *bt, int (*cmp)(void *left, void *right))
 	return NO_ERR;
 }
 
-int bt_new_ptr(BinaryTree **bt, int (*cmp)(void *left, void *right))
+int bt_new_ptr(BinarySearchTree **bt, int (*cmp)(void *left, void *right))
 {
 	if(bt == NULL)
 		return NULL_ERR;
@@ -37,7 +37,7 @@ int bt_new_ptr(BinaryTree **bt, int (*cmp)(void *left, void *right))
 }
 
 /* ---| DESTRUCTOR |--- */
-int bt_destroy_nodes_r(BinaryTreeNode *btn)
+int bt_destroy_nodes_r(BinarySearchTreeNode *btn)
 {
 	if(btn == NULL)
 		return NO_ERR;
@@ -54,7 +54,7 @@ int bt_destroy_nodes_r(BinaryTreeNode *btn)
 	return NO_ERR;
 }
 
-int bt_destroy(BinaryTree *bt)
+int bt_destroy(BinarySearchTree *bt)
 {
 	if(bt == NULL)
 		return NULL_ERR;
@@ -66,7 +66,7 @@ int bt_destroy(BinaryTree *bt)
 	return NO_ERR;
 }
 
-int bt_destroy_ptr(BinaryTree **bt)
+int bt_destroy_ptr(BinarySearchTree **bt)
 {
 	if(bt == NULL)
 		return NULL_ERR;
@@ -74,7 +74,7 @@ int bt_destroy_ptr(BinaryTree **bt)
 	return bt_destroy(*bt);
 }
 
-int bt_dump_r(BinaryTreeNode *btn, void(*dump_item)(void *src))
+int bt_dump_r(BinarySearchTreeNode *btn, void(*dump_item)(void *src))
 {
 	if(btn->left != NULL)
 		bt_dump_r(btn->left, dump_item);
@@ -90,7 +90,7 @@ int bt_dump_r(BinaryTreeNode *btn, void(*dump_item)(void *src))
 }
 
 /* ---| CUSTOM |--- */
-int bt_dump(BinaryTree *bt, void(*dump_item)(void *src))
+int bt_dump(BinarySearchTree *bt, void(*dump_item)(void *src))
 {
 	bt_dump_r(bt->root, dump_item);
 	printf("\n");
@@ -98,10 +98,10 @@ int bt_dump(BinaryTree *bt, void(*dump_item)(void *src))
 }
 
 /* ---| CREATE |--- */
-int bt_add_r(BinaryTreeNode **btn, void *item, int (*cmp)(void *left, void *right))
+int bt_add_r(BinarySearchTreeNode **btn, void *item, int (*cmp)(void *left, void *right))
 {
 	if(*btn == NULL) {
-		*btn = malloc(sizeof(BinaryTreeNode));
+		*btn = malloc(sizeof(BinarySearchTreeNode));
 		if(*btn == NULL)
 			return MEM_ERR;
 
@@ -127,18 +127,14 @@ int bt_add_r(BinaryTreeNode **btn, void *item, int (*cmp)(void *left, void *righ
 	return NO_ERR;
 }
 
-int bt_add(BinaryTree *bt, void *item)
+int bt_add(BinarySearchTree *bt, void *item)
 {
 	return bt_add_r(&bt->root, item, bt->cmp);
 }
 
 /* ---| READ |--- */
-int bt_get(BinaryTree *bt, unsigned int idx, void **dest);
-
-/* ---| UPDATE |--- */
-int bt_swap_nodes(BinaryTree *bt, unsigned int idx);
-int bt_replace(BinaryTree *bt, unsigned int idx, void *item);
+int bt_search(BinarySearchTree *bt, void *src, BinarySearchTreeNode **dest);
 
 /* ---| DELETE |--- */
-int bt_delete_node(BinaryTree *bt, void *item);
-int bt_delete_nodes(BinaryTree *bt, void *item);
+int bt_delete_node(BinarySearchTree *bt, void *item);
+int bt_delete_nodes(BinarySearchTree *bt, void *item);
