@@ -208,7 +208,32 @@ int hm_get(HashMap *hm, KeyVal *kv)
 }
 
 /* ---| UPDATE |--- */
-int hm_replace(HashMap *hm, KeyVal *kv); // TODO
+int hm_replace(HashMap *hm, KeyVal *kv)
+{
+	if(hm == NULL)
+		return NULL_ERR;
+
+	if(kv == NULL)
+		return NULL_ERR;
+
+	if(kv->key == NULL)
+		return NULL_ERR;
+
+	if(kv->val == NULL)
+		return NULL_ERR;
+
+	LinkedList *ll = &hm->buckets[hm->hash(&hm->hash_opt, kv->key, kv->key_len)];
+	LinkedListNode *node = ll->root;
+	while(node != NULL) {
+		if(hm->cmp(((KeyVal*)node->item)->key, ((KeyVal*)kv)->key) == 0) {
+			node->item = kv;
+			return NO_ERR;
+		}
+		node = node->next;
+	}
+
+	return ARG_ERR;
+}
 
 /* ---| DELETE |--- */
 int hm_delete(HashMap *hm, KeyVal *kv)
