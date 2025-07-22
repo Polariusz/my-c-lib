@@ -1,12 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 #include "hash_map.h"
-#include "../generic_functions/generic_functions.h" // It has the gf_default() function
 
 int main(void)
 {
 	// Declare and initialise new Hash Map:
 	HashMap hm;
-	hm_new(&hm, gf_default(), 1000);
+	hm_new(&hm, 1000, &hash_strn_v2, (int(*)(void*, void*))&strcmp);
 
 	// Add few key vals
 	KeyVal kv1 = {"Key", "one", 4, 4};
