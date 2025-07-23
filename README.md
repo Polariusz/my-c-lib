@@ -18,10 +18,11 @@
 
 ### Needing tests
 
+- Hash Map
+  - hash\_map/hash\_map.h
+
 ### In implementation
 
-- Hash Table
-  - hash\_map/hash\_map.h
 - Binary Search Tree
   - binary\_search\_tree/binary\_search\_tree.h
 
