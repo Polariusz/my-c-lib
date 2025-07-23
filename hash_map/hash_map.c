@@ -48,10 +48,10 @@ int hm_new_custom(
 		return NULL_ERR;
 
 	if(hash == NULL)
-		return NULL_ERR;
+		return ARG_ERR;
 
 	if(cmp == NULL)
-		return NULL_ERR;
+		return ARG_ERR;
 
 	hm->hash_opt = hash_opt;
 	int err = hm_init_buckets(hm, size);
