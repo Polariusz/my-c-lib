@@ -62,7 +62,7 @@ int hm_add(HashMap *hm, KeyVal *kv);
 int hm_get(HashMap *hm, KeyVal *kv);
 
 /* ---| UPDATE |--- */
-int hm_replace(HashMap *hm, KeyVal *kv); // TODO
+int hm_replace(HashMap *hm, KeyVal *kv);
 
 /* ---| DELETE |--- */
 int hm_delete(HashMap *hm, KeyVal *kv);
