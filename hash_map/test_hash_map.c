@@ -137,3 +137,56 @@ Test(hm_delete, simple)
 
 	hm_destroy(&hm);
 }
+
+Test(hm, complex)
+{
+	int err = 0;
+	HashMap hm;
+
+	err = hm_new(&hm, 1000, &hash_strn_v2, (int(*)(void*, void*))&strcmp); cr_assert_eq(err, 0);
+
+	KeyVal kv1 = {"Monika is Monikawaii", "Very Kawaii", 29, 11};
+	KeyVal kv2 = {"Chocolate", "Caramel", 10, 8};
+	KeyVal kv3 = {"Keyboard", "Keys", 9, 4};
+	unsigned long a = 18446744073709551615UL;
+	KeyVal kv4 = {"Love", &a, 5, sizeof(long)};
+	char k5[] = "Zooming";
+	KeyVal kv5 = {k5, "pretty fast", 8, 12};
+
+	err = hm_add(&hm, &kv1); cr_assert_eq(err, 0);
+	err = hm_add(&hm, &kv2); cr_assert_eq(err, 0);
+	err = hm_add(&hm, &kv3); cr_assert_eq(err, 0);
+	err = hm_add(&hm, &kv4); cr_assert_eq(err, 0);
+	err = hm_add(&hm, &kv5); cr_assert_eq(err, 0);
+
+	KeyVal kv2New = {"Chocolate", "Milk", 10, 5};
+	KeyVal kvNone = {"Electric", "a", 9, 2};
+	err = hm_replace(&hm, &kv2New); cr_assert_eq(err, 0);
+	err = hm_replace(&hm, &kvNone); cr_assert_neq(err, 0);
+	err = hm_delete(&hm, &kv3); cr_assert_eq(err, 0);
+	err = hm_add(&hm, &kv3); cr_assert_eq(err, 0);
+	err = hm_add(&hm, &kv3); cr_assert_neq(err, 0);
+	err = hm_delete(&hm, &kv3); cr_assert_eq(err, 0);
+
+	KeyVal yoink1 = {"Monika is Monikawaii", NULL, 29, 0};
+	err = hm_get(&hm, &yoink1); cr_assert_eq(err, 0);
+	cr_assert_eq(strcmp(yoink1.val, kv1.val), 0);
+
+	KeyVal yoink2 = {"Chocolate", NULL, 10, 0};
+	err = hm_get(&hm, &yoink2); cr_assert_eq(err, 0);
+	cr_assert_neq(strcmp(yoink2.val, kv2.val), 0);
+	cr_assert_eq(strcmp(yoink2.val, kv2New.val), 0);
+
+	KeyVal yoink3 = {"Keyboard", NULL, 9, 0};
+	err = hm_get(&hm, &yoink3); cr_assert_neq(err, 0);
+
+	KeyVal yoink4 = {"Love", NULL, 5, 0};
+	err = hm_get(&hm, &yoink4); cr_assert_eq(err, 0);
+	cr_assert_eq(yoink4.val, &a);
+
+	KeyVal yoink5 = {k5, NULL, 8, 0};
+	err = hm_get(&hm, &yoink5); cr_assert_eq(err, 0);
+	cr_assert_eq(strcmp(yoink5.val, kv5.val), 0);
+
+	err = hm_destroy(&hm); cr_assert_eq(err, 0);
+}

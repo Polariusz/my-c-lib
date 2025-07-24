@@ -2,6 +2,8 @@
 
 - Array List
   - array\_list/array\_list.h
+- Hash Map
+  - hash\_map/hash\_map.h
 - Linked List
   - linked\_list/linked\_list.h
 - Logger
@@ -13,13 +15,8 @@
   - string/string.h
   - Note:
     - I will probably have to rename it
-- Hasher
-  - hash/hash.h
 
 ### Needing tests
-
-- Hash Map
-  - hash\_map/hash\_map.h
 
 ### In implementation
 
