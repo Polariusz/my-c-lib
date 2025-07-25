@@ -148,7 +148,8 @@ int bst_search_r(BinarySearchTreeNode **bstn, void *src, BinarySearchTreeNode **
 	} else if(res < 0) {
 		return bst_search_r(&(*bstn)->right, src, dest, cmp);
 	} else {
-		*dest = *bstn;
+		if(dest != NULL)
+			*dest = *bstn;
 		return NO_ERR;
 	}
 }
