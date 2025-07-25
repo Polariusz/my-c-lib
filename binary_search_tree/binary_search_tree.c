@@ -161,4 +161,30 @@ int bst_search(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest)
 
 /* ---| DELETE |--- */
 int bst_delete_node(BinarySearchTree *bst, void *item);
-int bst_delete_nodes(BinarySearchTree *bst, void *item);
+
+int bst_delete_nodes_r(BinarySearchTreeNode **bstn, int (*cmp)(void *left, void *right))
+{
+	if(*bstn == NULL)
+		return NULL_ERR;
+
+	if((*bstn)->left != NULL)
+		return bst_delete_nodes_r(&(*bstn)->left, cmp);
+
+	if((*bstn)->right != NULL)
+		return bst_delete_nodes_r(&(*bstn)->right, cmp);
+
+	free(*bstn);
+	*bstn = NULL;
+
+	return NO_ERR;
+}
+
+int bst_delete_nodes(BinarySearchTree *bst, void *item)
+{
+	BinarySearchTreeNode *bstn;
+	int err = bst_search_r(&bst->root, item, &bstn, bst->cmp);
+	if(err != NO_ERR)
+		return err;
+
+	return bst_delete_nodes_r(&bstn, bst->cmp);
+}
