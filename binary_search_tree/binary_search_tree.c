@@ -133,7 +133,7 @@ int bst_add(BinarySearchTree *bst, void *item)
 }
 
 /* ---| READ |--- */
-int bst_search_r(BinarySearchTreeNode **bstn, void *src, BinarySearchTreeNode **dest, int (*cmp)(void *left, void *right))
+int bst_search_node_r(BinarySearchTreeNode **bstn, void *src, BinarySearchTreeNode **dest, int (*cmp)(void *left, void *right))
 {
 	if(bstn == NULL)
 		return ARG_ERR;
@@ -144,19 +144,59 @@ int bst_search_r(BinarySearchTreeNode **bstn, void *src, BinarySearchTreeNode **
 	int res = cmp((*bstn)->item, src);
 
 	if(res > 0) {
-		return bst_search_r(&(*bstn)->left, src, dest, cmp);
+		return bst_search_node_r(&(*bstn)->left, src, dest, cmp);
 	} else if(res < 0) {
-		return bst_search_r(&(*bstn)->right, src, dest, cmp);
+		return bst_search_node_r(&(*bstn)->right, src, dest, cmp);
 	} else {
 		if(dest != NULL)
 			*dest = *bstn;
 		return NO_ERR;
 	}
+
+	return ARG_ERR;
 }
 
-int bst_search(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest)
+int bst_search_node(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest)
 {
-	return bst_search_r(&bst->root, src, dest, bst->cmp);
+	return bst_search_node_r(&bst->root, src, dest, bst->cmp);
+}
+
+int bst_search_parent_r(BinarySearchTreeNode *head, BinarySearchTreeNode *node, void *item, BinarySearchTreeNode **dest, int (*cmp)(void *left, void *right))
+{
+	if(head == NULL)
+		return NULL_ERR;
+
+	if(node == NULL)
+		return ARG_ERR;
+
+	if(item == NULL)
+		return NULL_ERR;
+
+	if(cmp == NULL)
+		return NULL_ERR;
+
+	int res = cmp(node->item, item);
+	if(res > 0) {
+		return bst_search_parent_r(node, node->left, item, dest, cmp);
+	} else if (res < 0) {
+		return bst_search_parent_r(node, node->right, item, dest, cmp);
+	} else {
+		if(dest != NULL)
+			*dest = head;
+		return NO_ERR;
+	}
+}
+
+int bst_search_parent(BinarySearchTree *bst, void *item, BinarySearchTreeNode **dest)
+{
+	int res = bst->cmp(bst->root->item, item);
+	if(res > 0) {
+		return bst_search_parent_r(bst->root, bst->root->left, item, dest, bst->cmp);
+	} else if(res < 0) {
+		return bst_search_parent_r(bst->root, bst->root->right, item, dest, bst->cmp);
+	}
+
+	return ARG_ERR;
 }
 
 /* ---| DELETE |--- */

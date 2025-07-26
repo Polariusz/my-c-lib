@@ -28,7 +28,8 @@ int bst_dump(BinarySearchTree *bst, void(*dump_item)(void *src));
 int bst_add(BinarySearchTree *bst, void *item);
 
 /* ---| READ |--- */
-int bst_search(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest);
+int bst_search_node(BinarySearchTree *bst, void *src, BinarySearchTreeNode **dest);
+int bst_search_parent(BinarySearchTree *bst, void *item, BinarySearchTreeNode **dest);
 
 /* ---| DELETE |--- */
 int bst_delete_node(BinarySearchTree *bst, void *item);
