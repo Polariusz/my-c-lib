@@ -230,8 +230,15 @@ int bst_delete_nodes_r(BinarySearchTreeNode *bstn)
 
 /* ---| DELETE |--- */
 int bst_delete_node(BinarySearchTree *bst, void *item);
+
 int bst_delete_nodes(BinarySearchTree *bst, void *item)
 {
+	if(bst == NULL)
+		return NULL_ERR;
+
+	if(item == NULL)
+		return ARG_ERR;
+
 	int err = 0;
 
 	BinarySearchTreeNode *bstn = NULL;
