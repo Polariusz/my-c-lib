@@ -92,7 +92,12 @@ int bst_dump_r(BinarySearchTreeNode *bstn, void(*dump_item)(void *src))
 /* ---| CUSTOM |--- */
 int bst_dump(BinarySearchTree *bst, void(*dump_item)(void *src))
 {
-	bst_dump_r(bst->root, dump_item);
+	if(bst->root == NULL) {
+		printf("(null)");
+	} else {
+		bst_dump_r(bst->root, dump_item);
+	}
+
 	printf("\n");
 	return NO_ERR;
 }
@@ -199,6 +204,64 @@ int bst_search_parent(BinarySearchTree *bst, void *item, BinarySearchTreeNode **
 	return ARG_ERR;
 }
 
+int bst_delete_nodes_r(BinarySearchTreeNode *bstn)
+{
+	if(bstn == NULL)
+		return NO_ERR;
+
+	int err = 0;
+
+	err = bst_delete_nodes_r(bstn->left);
+	if(err != NO_ERR)
+		return err;
+
+	bstn->left = NULL;
+
+	err = bst_delete_nodes_r(bstn->right);
+	if(err != NO_ERR)
+		return err;
+
+	bstn->right = NULL;
+
+	free(bstn);
+
+	return NO_ERR;
+}
+
 /* ---| DELETE |--- */
 int bst_delete_node(BinarySearchTree *bst, void *item);
-int bst_delete_nodes(BinarySearchTree *bst, void *item);
+int bst_delete_nodes(BinarySearchTree *bst, void *item)
+{
+	int err = 0;
+
+	BinarySearchTreeNode *bstn = NULL;
+	err = bst_search_node(bst, item, &bstn);
+	if(err != NO_ERR)
+		return err;
+
+	if(bst->root == bstn) {
+		err = bst_delete_nodes_r(bst->root);
+		if(err != NO_ERR)
+			return err;
+
+		bst->root = NULL;
+
+	} else {
+		BinarySearchTreeNode *parent = NULL;
+		err = bst_search_parent(bst, item, &parent);
+		if(err != NO_ERR)
+			return err;
+
+		if(parent->left != NULL && parent->left == bstn) {
+			bst_delete_nodes_r(bstn);
+			parent->left = NULL;
+		} else if(parent->right != NULL && parent->right == bstn) {
+			bst_delete_nodes_r(bstn);
+			parent->right = NULL;
+		} else {
+			return INT_PANIC;
+		}
+	}
+
+	return NO_ERR;
+}
