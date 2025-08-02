@@ -20,16 +20,15 @@
 
 ### In implementation
 
-- Binary Search Tree
-  - binary\_search\_tree/binary\_search\_tree.h
-
 ### Ideas
 
 - Arena
   - arena.h
   - maybe?
+- Graph
+  - graph.h
+- Binary Search Tree
+  - binary\_search\_tree/binary\_search\_tree.h
 - StringBuilder
   - string\_builder.h
   - Basically it is a Linked List of char arrays.
-- Graph
-  - graph.h
